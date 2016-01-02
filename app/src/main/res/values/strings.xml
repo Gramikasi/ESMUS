@@ -12,4 +12,13 @@
     <string name="title_activity_show_phrase">ShowPhraseActivity</string>
     <string name="title_activity_advises">AdvisesActivity</string>
     <string name="title_activity_show_advice">ShowAdviceActivity</string>
+    <string name="welcome_text">¡Bienvenido a ESMUS!\nUn pequeño regustro inicial para saber un poco mas de ti y podras comenzar a usar la app!</string>
+    <string name="login_name">Nombre:</string>
+    <string name="login_surname">Apellido:</string>
+    <string name="login_country">Lugar de visita:</string>
+    <string name="name_example">Ej:Fernando</string>
+    <string name="surname_example">Ej:Aguilera</string>
+    <string name="country_example">Ej:Chicago</string>
+    <string name="button_save">Continuar</string>
+    <string name="error_login">FALTAN DATOS!Inroduce todos los datos por favor, no seran utlizados para ninguna actividad clandestina o ilegal!Ni los venderemos!;-)</string>
 </resources>
