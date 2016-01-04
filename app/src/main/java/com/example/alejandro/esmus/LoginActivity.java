@@ -54,7 +54,7 @@ public class LoginActivity extends ModelActivity {
         {
             TextView error=(TextView)findViewById(R.id.error_login);
             error.setVisibility(View.VISIBLE);
-            Toast.makeText(this,"FALTAN DATOS",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"FALTAN DATOS POR Añadir",Toast.LENGTH_SHORT).show();
         }
 
 
