@@ -25,7 +25,7 @@ public class Preferences {
 
     public ArrayList<String> readPref()
     {
-        ArrayList<String> login=null;
+        ArrayList<String> login=new ArrayList<String>();
         login.add(pref.getString(EXTRA_LOGIN_N, null));
         login.add(pref.getString(EXTRA_LOGIN_S, null));
         login.add(pref.getString(EXTRA_COUNTRY, null));

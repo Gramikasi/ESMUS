@@ -22,4 +22,5 @@ public abstract class ModelActivity extends AppCompatActivity {
 
     public void changeView(){}//Funcion para cambiar la vista de cada actividad Necesita ser sobreescrita
 
+    //public void saveLogin(View view){}
 }

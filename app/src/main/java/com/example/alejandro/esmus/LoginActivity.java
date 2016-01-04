@@ -1,5 +1,6 @@
 package com.example.alejandro.esmus;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -32,23 +33,28 @@ public class LoginActivity extends ModelActivity {
         });
 
     }
-
-    public void saveLogin()
+    //@Override
+    public void saveLogin(View view)
     {
-        ArrayList<String> login=null;
+        //Toast.makeText(this,"Entramos en savelogin",Toast.LENGTH_SHORT).show();
+        ArrayList<String> login=new ArrayList<String>();
         EditText name=(EditText)findViewById(R.id.login_name);
         EditText surname=(EditText)findViewById(R.id.login_surname);
         EditText country=(EditText)findViewById(R.id.login_country);
-        if (name.getText().toString()!=null&&surname.getText().toString()!=null&&country.getText().toString()!=null) {
-            login.add(name.getText().toString());
-            login.add(surname.getText().toString());
-            login.add(country.getText().toString());
+        login.add(name.getText().toString());
+        login.add(surname.getText().toString());
+        login.add(country.getText().toString());
+        if (login.get(0).toString().length()>0&&login.get(1).toString().length()>0&&login.get(2).toString().length()>0){
+
             pref.writePreff(login);
-        }else
+            Intent intent=new Intent(this,MainActivity.class);
+            startActivity(intent);
+
+         }else
         {
             TextView error=(TextView)findViewById(R.id.error_login);
             error.setVisibility(View.VISIBLE);
-            Toast.makeText(this,"FALTAN DATOS",Toast.LENGTH_SHORT);
+            Toast.makeText(this,"FALTAN DATOS",Toast.LENGTH_SHORT).show();
         }
 
 

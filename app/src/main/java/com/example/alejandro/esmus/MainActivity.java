@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class MainActivity extends ModelActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-        ArrayList<String> login=null;
+        ArrayList<String> login=new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
