@@ -16,6 +16,7 @@ public class Preferences {
     public final static String EXTRA_LOGIN_N="eus.ehu.intel.tta.esmus.login_name";
     public final static String EXTRA_LOGIN_S="eus.ehu.intel.tta.esmus.login_surname";
     public final static String EXTRA_COUNTRY="eus.ehu.intel.tta.esmus.country";
+    public final static String EXTRA_FILEDOWNLOAD="eus.ehu.intel.tta.esmus.country";
     SharedPreferences pref;
 
     public Preferences(Context context) {
@@ -31,6 +32,10 @@ public class Preferences {
         login.add(pref.getString(EXTRA_COUNTRY, null));
         return login;
     }
+    public Boolean isDownload()
+    {
+        return pref.getBoolean(EXTRA_FILEDOWNLOAD,false);
+    }
     public void writePreff(ArrayList<String> login)
     {
         SharedPreferences.Editor editor=pref.edit();
@@ -38,5 +43,10 @@ public class Preferences {
         editor.putString(EXTRA_LOGIN_S,login.get(1));
         editor.putString(EXTRA_LOGIN_S,login.get(2));
         editor.commit();
+    }
+    public void setDownload()
+    {
+        SharedPreferences.Editor editor=pref.edit();
+        editor.putBoolean(EXTRA_FILEDOWNLOAD,true);
     }
 }

@@ -1,17 +1,18 @@
 package com.example.alejandro.esmus;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class LoginActivity extends ModelActivity {
@@ -47,8 +48,32 @@ public class LoginActivity extends ModelActivity {
         if (login.get(0).toString().length()>0&&login.get(1).toString().length()>0&&login.get(2).toString().length()>0){
 
             pref.writePreff(login);
-            Intent intent=new Intent(this,MainActivity.class);
-            startActivity(intent);
+
+
+            if (pref.isDownload()){
+
+
+                //llamar a la clase que lee el fichero
+                //y hacer un put en el content del fichero
+
+                startModelActivity(MainActivity.class);
+
+            }else{
+
+                //Descarga con progressTask
+                try {
+                    content.putContenido(server.getJson("prueba"));
+                    startModelActivity(MainActivity.class);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
 
          }else
         {

@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -51,10 +53,23 @@ public class MainActivity extends ModelActivity
             TextView textView=(TextView)findViewById(R.id.welcome_message_main);
             textView.setText("Hola "+login.get(0)+" "+login.get(1)+" has venido a "+login.get(2)+" de visita!Quizas podria ayudarte a comunicarte en alguno de estos sitios!");
 
+            ArrayList<String> tematicas=content.getTematicas();
+            ListView listView=(ListView)findViewById(R.id.listView);
+            for (int i=0;i<tematicas.size();i++)
+            {
+                //Button button=new Button(this);
+
+
+            }
+
+
+
+
+
         }else
         {
-            Intent intent=new Intent(this,LoginActivity.class);
-            startActivity(intent);
+            startModelActivity(LoginActivity.class);
+
         }
     }
 
