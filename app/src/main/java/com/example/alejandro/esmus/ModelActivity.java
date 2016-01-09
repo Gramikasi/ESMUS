@@ -26,6 +26,7 @@ public abstract class ModelActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         pref= new Preferences(this);
         restClient=new RestClient(URL);
         server= new Bussines(restClient);

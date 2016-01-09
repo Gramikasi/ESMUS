@@ -2,6 +2,8 @@ package com.example.alejandro.esmus.presentation;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.example.alejandro.esmus.ModelActivity;
 
@@ -32,21 +34,23 @@ public class Preferences {
         login.add(pref.getString(EXTRA_COUNTRY, null));
         return login;
     }
-    public Boolean isDownload()
+    public String isDownload()
     {
-        return pref.getBoolean(EXTRA_FILEDOWNLOAD,false);
+        String i=pref.getString(EXTRA_FILEDOWNLOAD,"0");
+        Log.d("mensaje", "isdownload");
+        return i;
     }
     public void writePreff(ArrayList<String> login)
     {
         SharedPreferences.Editor editor=pref.edit();
         editor.putString(EXTRA_LOGIN_N,login.get(0));
         editor.putString(EXTRA_LOGIN_S,login.get(1));
-        editor.putString(EXTRA_LOGIN_S,login.get(2));
+        editor.putString(EXTRA_COUNTRY,login.get(2));
         editor.commit();
     }
     public void setDownload()
     {
         SharedPreferences.Editor editor=pref.edit();
-        editor.putBoolean(EXTRA_FILEDOWNLOAD,true);
+        editor.putString(EXTRA_FILEDOWNLOAD,"1");
     }
 }

@@ -1,6 +1,7 @@
 package com.example.alejandro.esmus.presentation;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.alejandro.esmus.connection.RestClient;
 
@@ -21,9 +22,11 @@ public  class Content {
 
     public Content(Bundle bundle) {
 
-        if(bundle ==null)
+        if(bundle ==null) {
             bundle = new Bundle();
+            Log.i("esmus","Creando nuevo bundle");
 
+        }
         this.bundle = bundle;
     }
 
@@ -31,31 +34,25 @@ public  class Content {
     public void putContenido(JSONArray jsonArray){
 
         bundle.putString(EXTRA_CONTENIDO, jsonArray.toString());
+        Log.i("esmus",jsonArray.toString());
 
     }
 
-
-
-
-
-    public void putContenido(){}
 
     public Bundle getBundle() {
         return bundle;
     }
 
     public ArrayList<String> getTematicas(){
-        ArrayList<String> tematicas=new ArrayList<String>();
+        ArrayList<String> tematicas=new ArrayList<>();
 
+        Log.i("esmus", bundle.getString(EXTRA_CONTENIDO, "HOLA"));
 
-        JSONArray contenido= null;
         try {
-            contenido = new JSONArray(bundle.getString(EXTRA_CONTENIDO,null));
+            JSONArray contenido = new JSONArray(bundle.getString(EXTRA_CONTENIDO,"hola"));
             for (int i=0;i<contenido.length();i++)
             {
-
                     tematicas.add(contenido.getJSONObject(i).getString("nombre"));
-
             }
 
 

@@ -1,9 +1,11 @@
 package com.example.alejandro.esmus;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,35 +15,34 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends ModelActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-        ArrayList<String> login=new ArrayList<String>();
+        ArrayList<String> login=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         login=pref.readPref();
+        Log.i("esmus", login.get(0) + login.get(1) + login.get(2));
+        Toast.makeText(this,login.get(0)+login.get(1)+login.get(2), Toast.LENGTH_SHORT).show();
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 
-            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            });
 
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+           DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                     this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
             drawer.setDrawerListener(toggle);
@@ -49,22 +50,69 @@ public class MainActivity extends ModelActivity
 
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
-        if (login.get(0)!=null) {
-            TextView textView=(TextView)findViewById(R.id.welcome_message_main);
-            textView.setText("Hola "+login.get(0)+" "+login.get(1)+" has venido a "+login.get(2)+" de visita!Quizas podria ayudarte a comunicarte en alguno de estos sitios!");
 
-            ArrayList<String> tematicas=content.getTematicas();
-            ListView listView=(ListView)findViewById(R.id.listView);
-            for (int i=0;i<tematicas.size();i++)
-            {
-                //Button button=new Button(this);
+        if (login.get(0)!=null)
+        {
+            if (pref.isDownload().compareToIgnoreCase("1")==0){
+                //Toast.makeText(this,"dfichero ya descargado",Toast.LENGTH_SHORT).show();
+                //llamar a la clase que lee el fichero
+                //y hacer un put en el content del fichero
+                Log.i("esmus","1-fichero ya descargado");
+                try {
+                    content.putContenido(server.getJson("prueba"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }else{
+
+                //Descarga con progressTask
+                Toast.makeText(this,"2-descarga con progrss",Toast.LENGTH_SHORT).show();
+                try {
+                    content.putContenido(server.getJson("prueba"));
+                    Log.i("esmus", content.getTematicas().toString());
+                    Toast.makeText(this,content.getTematicas().toString(),Toast.LENGTH_SHORT).show();
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();}
 
 
             }
+            Log.e("esmus", "3Antes del textView");
+            TextView textView=(TextView)findViewById(R.id.welcome_message_main);
+
+            Log.e("esmus", "4despues del textView");
+           textView.setText("Hola " + login.get(0) + " " + login.get(1) + " has venido a " + login.get(2) + " de visita!Quizas podria ayudarte a comunicarte en alguno de estos sitios!");
+            Log.e("esmus", "5despues del set");
+            ArrayList<String> tematicas=content.getTematicas();
+            Log.e("esmus", "6despues del tget");
+        //ListView listView=(ListView)findViewById(R.id.listView);
 
 
+            LinearLayout list=(LinearLayout)findViewById(R.id.linearListview);
 
+            //final ArrayList mLista = new ArrayList();
+            //final ArrayAdapter mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mLista);
+            //list.setAdapter(mAdapter);
 
+            for (String tema : tematicas)
+            {
+
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+
+               Button button=new Button(this);
+
+                button.setText(tema);
+
+                button.setLayoutParams(params);
+                list.addView(button);
+
+              //  mLista.add(button);
+
+            }
 
         }else
         {
@@ -72,6 +120,14 @@ public class MainActivity extends ModelActivity
 
         }
     }
+
+
+
+
+
+
+
+
 
     @Override
     public void onBackPressed() {

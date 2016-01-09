@@ -24,8 +24,7 @@ public class Bussines  {
 
     }
 
-    public JSONArray getJson(String relativePath) throws IOException, JSONException {
-
+    public JSONArray getJson(String relativePath) throws IOException {
 
         JSONArray contenido=new JSONArray();
         try {
@@ -37,9 +36,7 @@ public class Bussines  {
             e.printStackTrace();
         }
 
-
         return contenido;
-
 
     }
 
