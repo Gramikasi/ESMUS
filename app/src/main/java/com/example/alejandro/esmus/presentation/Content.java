@@ -31,10 +31,14 @@ public  class Content {
     }
 
 
+    public static String getExtraContenido() {
+        return EXTRA_CONTENIDO;
+    }
+
     public void putContenido(JSONArray jsonArray){
 
         bundle.putString(EXTRA_CONTENIDO, jsonArray.toString());
-        Log.i("esmus",jsonArray.toString());
+        //Log.i("esmus",jsonArray.toString());
 
     }
 
@@ -46,12 +50,12 @@ public  class Content {
     public ArrayList<String> getTematicas(){
         ArrayList<String> tematicas=new ArrayList<>();
 
-        Log.i("esmus", bundle.getString(EXTRA_CONTENIDO, "HOLA"));
 
         try {
             JSONArray contenido = new JSONArray(bundle.getString(EXTRA_CONTENIDO,"hola"));
             for (int i=0;i<contenido.length();i++)
             {
+
                     tematicas.add(contenido.getJSONObject(i).getString("nombre"));
             }
 
@@ -61,6 +65,7 @@ public  class Content {
         }
 
 
+        Log.e("esmus","Salida de la funcion getTematicas"+tematicas.toString());
         return tematicas;
     }
 }

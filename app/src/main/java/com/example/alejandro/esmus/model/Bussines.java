@@ -5,7 +5,8 @@ import com.example.alejandro.esmus.presentation.Content;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-
+import org.json.JSONObject;
+import android.util.Log;
 import java.io.IOException;
 
 /**
@@ -29,7 +30,7 @@ public class Bussines  {
         JSONArray contenido=new JSONArray();
         try {
 
-            contenido = new JSONArray(jsonArray);
+            contenido= new JSONArray(rest.getJson("dataFile.json").toString());
 
 
         } catch (JSONException e) {

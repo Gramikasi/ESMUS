@@ -22,6 +22,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -67,26 +69,51 @@ public class MainActivity extends ModelActivity
             }else{
 
                 //Descarga con progressTask
-                Toast.makeText(this,"2-descarga con progrss",Toast.LENGTH_SHORT).show();
-                try {
+                new ProgressTask<JSONArray>(this){
+
+
+                    @Override
+                    protected JSONArray work() throws Exception {
+
+
+                        return server.getJson("dataFile.json");
+
+                    }
+
+                    @Override
+                    protected void onFinish(JSONArray result) {
+
+                        content.putContenido(result);
+
+
+                        //Log.e("esmus","Estamos en el MainActivity"+result.toString() );
+
+
+                    }
+                }.execute();
+
+
+               // Toast.makeText(this,content.getTematicas().toString(),Toast.LENGTH_SHORT).show();
+                Log.e("esmus",content.getTematicas().toString());
+
+               /* try {
                     content.putContenido(server.getJson("prueba"));
                     Log.i("esmus", content.getTematicas().toString());
                     Toast.makeText(this,content.getTematicas().toString(),Toast.LENGTH_SHORT).show();
 
 
                 } catch (IOException e) {
-                    e.printStackTrace();}
+                    e.printStackTrace();}*/
 
 
             }
-            Log.e("esmus", "3Antes del textView");
+
             TextView textView=(TextView)findViewById(R.id.welcome_message_main);
 
-            Log.e("esmus", "4despues del textView");
            textView.setText("Hola " + login.get(0) + " " + login.get(1) + " has venido a " + login.get(2) + " de visita!Quizas podria ayudarte a comunicarte en alguno de estos sitios!");
-            Log.e("esmus", "5despues del set");
+
             ArrayList<String> tematicas=content.getTematicas();
-            Log.e("esmus", "6despues del tget");
+
         //ListView listView=(ListView)findViewById(R.id.listView);
 
 
@@ -120,13 +147,6 @@ public class MainActivity extends ModelActivity
 
         }
     }
-
-
-
-
-
-
-
 
 
     @Override

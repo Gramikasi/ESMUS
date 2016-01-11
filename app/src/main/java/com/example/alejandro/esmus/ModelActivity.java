@@ -15,13 +15,11 @@ import com.example.alejandro.esmus.presentation.Preferences;
 
 public abstract class ModelActivity extends AppCompatActivity {
 
-    protected String URL="";//Introducir la url
+    protected String URL="http://158.227.55.100:8080/GramikasiServer";//Introducir la url
     protected Preferences pref;
     protected Bussines server;
     protected Content content;
     protected RestClient restClient;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +35,6 @@ public abstract class ModelActivity extends AppCompatActivity {
         Intent intent= newIntent(cls);
         startActivity(intent);
     }
-
 
     protected <T> Intent newIntent(Class<T> cls){
 

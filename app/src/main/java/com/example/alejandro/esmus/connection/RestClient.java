@@ -6,6 +6,9 @@ package com.example.alejandro.esmus.connection;
 
 
 import android.util.Base64;
+import android.util.Log;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -50,14 +53,13 @@ public class RestClient {
         properties.put(name, value);
     }
 
-
     //funcion generica que devuleve una conexion
     private HttpURLConnection getConnection(String path) throws IOException{
 
         URL url  = new URL(String.format("%s/%s",baseURL,path));
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        for(Map.Entry<String,String> property : properties.entrySet())
-            conn.setRequestProperty(property.getKey(),property.getValue());
+       // for(Map.Entry<String,String> property : properties.entrySet())
+      //      conn.setRequestProperty(property.getKey(),property.getValue());
         return conn;
     }
 
@@ -68,6 +70,7 @@ public class RestClient {
         try{
             conn = getConnection(path);
             try(BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))){
+                //Log.i("esmus",br.readLine().toString());
                 return br.readLine();
             }
         }finally {
@@ -76,13 +79,11 @@ public class RestClient {
         }
     }
 
-    public JSONObject getJson (String path) throws IOException, JSONException {
+    public JSONArray getJson (String path) throws IOException, JSONException {
 
-        return new JSONObject(getString(path));
+
+        return new JSONArray(getString(path));
     }
-
-
-
 
 
     }
