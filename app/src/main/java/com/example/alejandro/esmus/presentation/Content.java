@@ -37,8 +37,9 @@ public  class Content {
 
     public void putContenido(JSONArray jsonArray){
 
+        Log.e("esmus", "putContenido1" +jsonArray.toString() );
         bundle.putString(EXTRA_CONTENIDO, jsonArray.toString());
-        //Log.i("esmus",jsonArray.toString());
+        Log.e("esmus", "putContenido" + bundle.getString(EXTRA_CONTENIDO));
 
     }
 
@@ -51,11 +52,16 @@ public  class Content {
         ArrayList<String> tematicas=new ArrayList<>();
 
 
+        String datos=bundle.getString(EXTRA_CONTENIDO);
+        Log.e("esmus","getTematicas"+datos);
+
+
         try {
-            JSONArray contenido = new JSONArray(bundle.getString(EXTRA_CONTENIDO,"hola"));
+
+           JSONArray contenido = new JSONArray(datos);
+
             for (int i=0;i<contenido.length();i++)
             {
-
                     tematicas.add(contenido.getJSONObject(i).getString("nombre"));
             }
 
@@ -63,6 +69,7 @@ public  class Content {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
 
 
         Log.e("esmus","Salida de la funcion getTematicas"+tematicas.toString());

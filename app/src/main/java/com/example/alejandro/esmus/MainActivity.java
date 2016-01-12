@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,8 +37,7 @@ public class MainActivity extends ModelActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         login=pref.readPref();
-        Log.i("esmus", login.get(0) + login.get(1) + login.get(2));
-        Toast.makeText(this,login.get(0)+login.get(1)+login.get(2), Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this,login.get(0)+login.get(1)+login.get(2), Toast.LENGTH_SHORT).show();
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
@@ -56,10 +56,10 @@ public class MainActivity extends ModelActivity
         if (login.get(0)!=null)
         {
             if (pref.isDownload().compareToIgnoreCase("1")==0){
-                //Toast.makeText(this,"dfichero ya descargado",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"dfichero ya descargado",Toast.LENGTH_SHORT).show();
                 //llamar a la clase que lee el fichero
                 //y hacer un put en el content del fichero
-                Log.i("esmus","1-fichero ya descargado");
+
                 try {
                     content.putContenido(server.getJson("prueba"));
                 } catch (IOException e) {
@@ -75,18 +75,67 @@ public class MainActivity extends ModelActivity
                     @Override
                     protected JSONArray work() throws Exception {
 
+                       Log.e("esmus","descargando el json");
 
                         return server.getJson("dataFile.json");
+
 
                     }
 
                     @Override
                     protected void onFinish(JSONArray result) {
 
+                        Log.e("esmus", "añadiendo cotenido");
                         content.putContenido(result);
 
+                        TextView textView=(TextView)findViewById(R.id.welcome_message_main);
 
-                        //Log.e("esmus","Estamos en el MainActivity"+result.toString() );
+                        textView.setText("Hola " + login.get(0) + " " + login.get(1) + " has venido a " + login.get(2) + " de visita!Quizas podria ayudarte a comunicarte en alguno de estos sitios!");
+
+                        ArrayList<String> tematicas=content.getTematicas();
+                        Toast.makeText(context.getApplicationContext(),tematicas.toString(),Toast.LENGTH_SHORT).show();
+
+                        //ListView listView=(ListView)findViewById(R.id.listView);
+
+
+
+                        //final ArrayList mLista = new ArrayList();
+                        //final ArrayAdapter mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mLista);
+                        //list.setAdapter(mAdapter);
+
+
+                        LinearLayout list=(LinearLayout)findViewById(R.id.linearListview);
+
+                        for (String tema : tematicas)
+                        {
+
+                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                            Button button=new Button(context.getApplicationContext());
+
+                            button.setText(tema);
+
+                            button.setLayoutParams(params);
+                            list.addView(button);
+
+                            //  mLista.add(button);
+
+                        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                     }
@@ -94,7 +143,6 @@ public class MainActivity extends ModelActivity
 
 
                // Toast.makeText(this,content.getTematicas().toString(),Toast.LENGTH_SHORT).show();
-                Log.e("esmus",content.getTematicas().toString());
 
                /* try {
                     content.putContenido(server.getJson("prueba"));
@@ -108,38 +156,7 @@ public class MainActivity extends ModelActivity
 
             }
 
-            TextView textView=(TextView)findViewById(R.id.welcome_message_main);
 
-           textView.setText("Hola " + login.get(0) + " " + login.get(1) + " has venido a " + login.get(2) + " de visita!Quizas podria ayudarte a comunicarte en alguno de estos sitios!");
-
-            ArrayList<String> tematicas=content.getTematicas();
-
-        //ListView listView=(ListView)findViewById(R.id.listView);
-
-
-            LinearLayout list=(LinearLayout)findViewById(R.id.linearListview);
-
-            //final ArrayList mLista = new ArrayList();
-            //final ArrayAdapter mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mLista);
-            //list.setAdapter(mAdapter);
-
-            for (String tema : tematicas)
-            {
-
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT);
-
-               Button button=new Button(this);
-
-                button.setText(tema);
-
-                button.setLayoutParams(params);
-                list.addView(button);
-
-              //  mLista.add(button);
-
-            }
 
         }else
         {

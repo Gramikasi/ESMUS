@@ -70,7 +70,6 @@ public class RestClient {
         try{
             conn = getConnection(path);
             try(BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))){
-                //Log.i("esmus",br.readLine().toString());
                 return br.readLine();
             }
         }finally {

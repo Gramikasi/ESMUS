@@ -15,7 +15,7 @@ import com.example.alejandro.esmus.presentation.Preferences;
 
 public abstract class ModelActivity extends AppCompatActivity {
 
-    protected String URL="http://158.227.55.100:8080/GramikasiServer";//Introducir la url
+    protected String URL="http://158.227.55.52:8080/GramikasiServer/docs";//Introducir la url
     protected Preferences pref;
     protected Bussines server;
     protected Content content;
