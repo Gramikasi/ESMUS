@@ -1,32 +1,23 @@
 package com.example.alejandro.esmus;
 
-import android.app.ActionBar;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.ArrayList;
+import com.example.alejandro.esmus.vista.ProgressTask;
+
 
 public class MainActivity extends ModelActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,12 +28,8 @@ public class MainActivity extends ModelActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         login=pref.readPref();
-       // Toast.makeText(this,login.get(0)+login.get(1)+login.get(2), Toast.LENGTH_SHORT).show();
-
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
-
-
 
            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -55,30 +42,27 @@ public class MainActivity extends ModelActivity
 
         if (login.get(0)!=null)
         {
-            if (pref.isDownload().compareToIgnoreCase("1")==0){
-                Toast.makeText(this,"dfichero ya descargado",Toast.LENGTH_SHORT).show();
-                //llamar a la clase que lee el fichero
-                //y hacer un put en el content del fichero
-
-                try {
-                    content.putContenido(server.getJson("prueba"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }else{
-
                 //Descarga con progressTask
                 new ProgressTask<JSONArray>(this){
-
 
                     @Override
                     protected JSONArray work() throws Exception {
 
-                       Log.e("esmus","descargando el json");
+                        if (pref.isDownload()) {
 
-                        return server.getJson("dataFile.json");
+                            Log.e("esmus","leyendo fichero json");
+                          JSONArray jsonArray=  new JSONArray(filesManage.readJson(context));
 
+                            return jsonArray;
+                        }else{
+                            Log.e("esmus", "descargando el json");
+                            JSONArray jsonArray= server.getJson("dataFile");
+                            filesManage.writeJson(jsonArray.toString(), context);
+                            Log.i("esmus", "Antes de hacer el set" + pref.isDownload().toString());
+                            pref.setDownload();
+
+                            return jsonArray;
+                        }
 
                     }
 
@@ -88,6 +72,7 @@ public class MainActivity extends ModelActivity
                         Log.e("esmus", "añadiendo cotenido");
                         content.putContenido(result);
 
+
                         TextView textView=(TextView)findViewById(R.id.welcome_message_main);
 
                         textView.setText("Hola " + login.get(0) + " " + login.get(1) + " has venido a " + login.get(2) + " de visita!Quizas podria ayudarte a comunicarte en alguno de estos sitios!");
@@ -96,16 +81,21 @@ public class MainActivity extends ModelActivity
                         Toast.makeText(context.getApplicationContext(),tematicas.toString(),Toast.LENGTH_SHORT).show();
 
                         //ListView listView=(ListView)findViewById(R.id.listView);
-
-
-
                         //final ArrayList mLista = new ArrayList();
                         //final ArrayAdapter mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mLista);
                         //list.setAdapter(mAdapter);
 
+                        final View.OnClickListener listener= new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v) {
+                                int i= (int) v.getTag();
+                                content.putExtraIndiceTematica(i);
+                                startModelActivity(RegisterActivivty.class);
 
+                            }
+                        };
                         LinearLayout list=(LinearLayout)findViewById(R.id.linearListview);
-
+                        int i=0;
                         for (String tema : tematicas)
                         {
 
@@ -113,10 +103,11 @@ public class MainActivity extends ModelActivity
                                     LinearLayout.LayoutParams.MATCH_PARENT,
                                     LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                            Button button=new Button(context.getApplicationContext());
+                           Button button=new Button(context.getApplicationContext());
 
                             button.setText(tema);
-
+                            button.setTag(i);
+                            button.setOnClickListener(listener);
                             button.setLayoutParams(params);
                             list.addView(button);
 
@@ -124,20 +115,7 @@ public class MainActivity extends ModelActivity
 
                         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                        Log.i("esmus", "Despues de hacer el set" + pref.isDownload().toString());
                     }
                 }.execute();
 
@@ -154,7 +132,7 @@ public class MainActivity extends ModelActivity
                     e.printStackTrace();}*/
 
 
-            }
+
 
 
 
@@ -222,4 +200,5 @@ public class MainActivity extends ModelActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

@@ -63,5 +63,10 @@ public class LoginActivity extends ModelActivity {
 
 
     }
+    @Override
+    public void onBackPressed()
+    {
+        Toast.makeText(this,"Por favor introduce los datos y pulsa continuar",Toast.LENGTH_LONG).show();
+    }
 
 }

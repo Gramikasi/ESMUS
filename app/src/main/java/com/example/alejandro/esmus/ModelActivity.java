@@ -10,16 +10,18 @@ import android.view.View;
 
 import com.example.alejandro.esmus.connection.RestClient;
 import com.example.alejandro.esmus.model.Bussines;
+import com.example.alejandro.esmus.model.FilesManage;
 import com.example.alejandro.esmus.presentation.Content;
 import com.example.alejandro.esmus.presentation.Preferences;
 
 public abstract class ModelActivity extends AppCompatActivity {
 
-    protected String URL="http://158.227.55.52:8080/GramikasiServer/docs";//Introducir la url
+    protected String URL="http://158.227.56.114:8080/GramikasiServer/docs";//Introducir la url
     protected Preferences pref;
     protected Bussines server;
     protected Content content;
     protected RestClient restClient;
+    protected FilesManage filesManage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public abstract class ModelActivity extends AppCompatActivity {
         restClient=new RestClient(URL);
         server= new Bussines(restClient);
         content= new Content(getIntent().getExtras());
+        filesManage=new FilesManage();
     }
 
     protected <T> void startModelActivity(Class<T> cls){

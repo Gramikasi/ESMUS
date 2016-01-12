@@ -1,18 +1,11 @@
 package com.example.alejandro.esmus.model;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.Toast;
 
 /**
@@ -26,6 +19,16 @@ public class FilesManage
         {
             path=url;
         }
+
+        public String getPath() {
+                return path;
+        }
+
+        public void setPath(String path) {
+                this.path = path;
+        }
+
+        public FilesManage(){}
 
 
         public boolean writeJson(String jsonArray,Context context)

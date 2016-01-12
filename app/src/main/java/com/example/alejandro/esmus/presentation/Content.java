@@ -19,6 +19,55 @@ public  class Content {
     private final Bundle bundle;
 
     private final static String EXTRA_CONTENIDO = "com.example.alejandro.esmus.extra_contenido";
+    private final static String EXTRA_INDICE_TEMATICA="com.example.alejandro.esmus.indicetematica";
+    private final static String EXTRA_INDICE_REGISTRO="com.example.alejandro.esmus.indiRegistro";
+
+
+
+    public void putExtraIndiceFrase(int i){
+
+        bundle.putInt(EXTRA_INDICE_FRASE,i);
+
+    }
+
+    public void putExtraIndiceTematica(int i){
+
+        bundle.putInt(EXTRA_INDICE_TEMATICA,i);
+
+    }
+
+
+    public void putExtraIndiceRegistro(int i){
+
+        bundle.putInt(EXTRA_INDICE_REGISTRO,i);
+
+    }
+
+
+
+
+    public int getExtraIndiceFrase(){
+
+      return   bundle.getInt(EXTRA_INDICE_FRASE);
+
+    }
+
+    public int getExtraIndiceTematica(){
+
+       return  bundle.getInt(EXTRA_INDICE_TEMATICA);
+
+    }
+
+
+    public int getExtraIndiceRegistro(){
+
+        return bundle.getInt(EXTRA_INDICE_REGISTRO);
+
+    }
+
+
+
+    private final static String EXTRA_INDICE_FRASE="com.example.alejandro.esmus.indicefrase";
 
     public Content(Bundle bundle) {
 
@@ -37,10 +86,14 @@ public  class Content {
 
     public void putContenido(JSONArray jsonArray){
 
-        Log.e("esmus", "putContenido1" +jsonArray.toString() );
         bundle.putString(EXTRA_CONTENIDO, jsonArray.toString());
-        Log.e("esmus", "putContenido" + bundle.getString(EXTRA_CONTENIDO));
 
+
+    }
+
+    public String getContenido(){
+
+        return bundle.getString(EXTRA_CONTENIDO);
     }
 
 
@@ -53,7 +106,7 @@ public  class Content {
 
 
         String datos=bundle.getString(EXTRA_CONTENIDO);
-        Log.e("esmus","getTematicas"+datos);
+
 
 
         try {
@@ -72,7 +125,6 @@ public  class Content {
 
 
 
-        Log.e("esmus","Salida de la funcion getTematicas"+tematicas.toString());
         return tematicas;
     }
 }

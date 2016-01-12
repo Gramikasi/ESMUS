@@ -18,7 +18,7 @@ public class Preferences {
     public final static String EXTRA_LOGIN_N="eus.ehu.intel.tta.esmus.login_name";
     public final static String EXTRA_LOGIN_S="eus.ehu.intel.tta.esmus.login_surname";
     public final static String EXTRA_COUNTRY="eus.ehu.intel.tta.esmus.country";
-    public final static String EXTRA_FILEDOWNLOAD="eus.ehu.intel.tta.esmus.country";
+    public final static String EXTRA_FILEDOWNLOAD="eus.ehu.intel.tta.esmus.isDownload";
     SharedPreferences pref;
 
     public Preferences(Context context) {
@@ -34,9 +34,9 @@ public class Preferences {
         login.add(pref.getString(EXTRA_COUNTRY, null));
         return login;
     }
-    public String isDownload()
+    public Boolean isDownload()
     {
-        String i=pref.getString(EXTRA_FILEDOWNLOAD,"0");
+        Boolean i=pref.getBoolean(EXTRA_FILEDOWNLOAD,false);
         Log.d("mensaje", "isdownload");
         return i;
     }
@@ -50,7 +50,10 @@ public class Preferences {
     }
     public void setDownload()
     {
+
         SharedPreferences.Editor editor=pref.edit();
-        editor.putString(EXTRA_FILEDOWNLOAD,"1");
+        editor.putBoolean(EXTRA_FILEDOWNLOAD, true);
+        editor.commit();
+        Log.i("esmus","estamos en el set");
     }
 }
