@@ -59,7 +59,7 @@ public class MainActivity extends ModelActivity
                         }else{
                             if(Network.isConnected(context)) {
                                 Log.e("esmus", "descargando el json");
-                                JSONArray jsonArray = server.getJson("dataFile");
+                                JSONArray jsonArray = server.getJson("docs/dataFile");
                                 filesManage.writeJson(jsonArray.toString(), context);
                                 Log.i("esmus", "Antes de hacer el set" + pref.isDownload().toString());
                                 pref.setDownload();

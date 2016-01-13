@@ -41,6 +41,12 @@ public class Bussines  {
 
     }
 
+    public byte[] getAudio(String relativePath){
+
+
+        return rest.getAudio(relativePath);
+    }
+
 
 
 }

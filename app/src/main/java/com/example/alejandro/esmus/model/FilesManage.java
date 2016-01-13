@@ -1,8 +1,15 @@
 package com.example.alejandro.esmus.model;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.URL;
 
 import android.content.Context;
 import android.util.Log;
@@ -69,5 +76,22 @@ public class FilesManage
                 return jsonArray;
 
         }
+
+        //guardar ficheros de audio
+        public String writeAudio( byte[] audio, Context context, String nombreAudio) throws IOException {
+
+                FileOutputStream fos=new FileOutputStream(String.valueOf
+                        (context.getApplicationContext().openFileOutput(nombreAudio, Context.MODE_PRIVATE)));
+                DataOutputStream dos=new DataOutputStream(fos);
+                dos.write(audio);
+                dos.close();
+                fos.close();
+
+                return "path_al_fichero";
+
+        }
+
+
+
 
 }
