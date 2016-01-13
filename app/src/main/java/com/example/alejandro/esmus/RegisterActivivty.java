@@ -33,13 +33,22 @@ public class RegisterActivivty extends ModelActivity {
         Toast.makeText(this, content.getTematicas().toString(), Toast.LENGTH_SHORT).show();
         Toast.makeText(this, Integer.valueOf(content.getExtraIndiceTematica()).toString(), Toast.LENGTH_SHORT).show();
 
-        //probar descarga audio
-        try {
-            filesManage.writeAudio( server.getAudio("audio/000.aac"),this,"000.aac");
-          //  showAudio("000.aac");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //probar descarga audio
+                try {
+                    String path;
+                    path=filesManage.writeAudio( server.getAudio("000.aac"),getApplicationContext(),"000.aac");
+                    showAudio(path);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+
+
 
     }
 

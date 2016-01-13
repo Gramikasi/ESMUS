@@ -79,15 +79,18 @@ public class FilesManage
 
         //guardar ficheros de audio
         public String writeAudio( byte[] audio, Context context, String nombreAudio) throws IOException {
-
-                FileOutputStream fos=new FileOutputStream(String.valueOf
-                        (context.getApplicationContext().openFileOutput(nombreAudio, Context.MODE_PRIVATE)));
+                String pathFichero=null;
+                FileOutputStream fos=context.getApplicationContext().openFileOutput(nombreAudio, Context.MODE_PRIVATE);
+                Log.e("esmus","writeAudio "+ pathFichero);
+                pathFichero=context.getFilesDir().getAbsolutePath();
+                pathFichero.concat(nombreAudio);
+                Log.e("esmus","writeAudio "+ pathFichero.concat(nombreAudio));
                 DataOutputStream dos=new DataOutputStream(fos);
                 dos.write(audio);
                 dos.close();
                 fos.close();
 
-                return "path_al_fichero";
+                return pathFichero.concat(nombreAudio);
 
         }
 

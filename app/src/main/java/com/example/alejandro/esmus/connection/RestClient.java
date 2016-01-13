@@ -90,14 +90,17 @@ public class RestClient {
         return new JSONArray(getString(path));
     }
 
+
+
     public byte[] getAudioBytes(String path){
 
         HttpURLConnection conn=null;
         byte[] data =null;
         try {
             conn= getConnection(path);
+            Log.e("esmus","path de audios "+ path);
 
-            int contentLength = conn.getContentLength();
+         int contentLength = conn.getContentLength();
             InputStream raw =conn.getInputStream();
             InputStream in = new BufferedInputStream(raw);
             data = new byte[contentLength];
