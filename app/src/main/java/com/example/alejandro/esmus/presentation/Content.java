@@ -179,4 +179,40 @@ public  class Content {
 
         return tematicas;
     }
+
+    public void guardarPathDescarga(String path){
+
+        try {
+            JSONArray jsonArray= new JSONArray(bundle.getString(EXTRA_CONTENIDO));
+
+            jsonArray.getJSONObject(
+                    getExtraIndiceTematica()).getJSONArray("subtemas").
+                    getJSONObject(getExtraIndiceRegistro()).getJSONArray("frases").getJSONObject(getExtraIndiceFrase()).put("path",path);
+            putContenido(jsonArray);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void guardarPathGrabado(String path){
+
+        try {
+            JSONArray jsonArray= new JSONArray(bundle.getString(EXTRA_CONTENIDO));
+
+         jsonArray.getJSONObject(
+                 getExtraIndiceTematica()).getJSONArray("subtemas").
+                 getJSONObject(getExtraIndiceRegistro()).getJSONArray("frases").getJSONObject(getExtraIndiceFrase()).put("pathG", path);
+            putContenido(jsonArray);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+
 }

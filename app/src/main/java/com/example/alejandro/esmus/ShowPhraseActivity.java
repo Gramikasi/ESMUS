@@ -62,7 +62,9 @@ public class ShowPhraseActivity extends ModelActivity {
 
                 try {
                     showAudio(path);
-                    //TODO:FALTA LLAMAR A LA FUNCION DEL CONTENT QUE GUARDA EL PATH DEL AUDIO DESCARGADO
+                    content.guardarPathDescarga(path);
+                    filesManage.writeJson(content.getContenido(),
+                            context.getApplicationContext().openFileOutput("dataFile.json", Context.MODE_PRIVATE));
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -109,7 +111,9 @@ public class ShowPhraseActivity extends ModelActivity {
                             path=data.getDataString();
                     try {
                         showAudio(path);
-                        // TODO: FALTA LLAMAR A LA FUNCION DEL CONTENT QUE GUARDA EL PATH DEL AUDIO GRABADO
+                        content.guardarPathGrabado(path);
+                        filesManage.writeJson(content.getContenido(),
+                                this.getApplicationContext().openFileOutput("dataFile.json", Context.MODE_PRIVATE));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
