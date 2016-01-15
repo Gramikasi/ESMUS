@@ -90,6 +90,26 @@ public  class Content {
 
 
     }
+    public ArrayList<String> getRegistros(int tematica)
+    {
+        ArrayList<String> registros=new ArrayList<>();
+        String datos=bundle.getString(EXTRA_CONTENIDO);
+        try {
+
+            JSONArray contenido = new JSONArray(datos);
+            JSONArray registro=contenido.getJSONObject(tematica).getJSONArray("subtemas");
+
+            for (int i=0;i<registro.length();i++)
+            {
+                registros.add(registro.getJSONObject(i).getString("nombre"));
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return registros;
+    }
 
     public String getContenido(){
 
