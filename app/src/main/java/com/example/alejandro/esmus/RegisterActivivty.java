@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class RegisterActivivty extends ModelActivity {
 
     private LinearLayout layout;
-
+////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
