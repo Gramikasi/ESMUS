@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class RegisterActivivty extends ModelActivity {
 
-    private LinearLayout layout;
+
 ////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,20 +30,17 @@ public class RegisterActivivty extends ModelActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ArrayList<String> login=new ArrayList<>();
-        layout = (LinearLayout) findViewById(R.id.register_activity_linear);
         login=pref.readPref();
         ArrayList<String> tematicas=content.getTematicas();
-        Toast.makeText(this,content.getContenido().toString(),Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, content.getTematicas().toString(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, Integer.valueOf(content.getExtraIndiceTematica()).toString(), Toast.LENGTH_SHORT).show();
+
 
 
         //logica mostrar registros
         TextView textView=(TextView)findViewById(R.id.welcome_message_register);
 
-        textView.setText("Bien " + login.get(0)+ "! Te encuentras en la "+tematicas.get(content.getExtraIndiceTematica())+" ,¿Que quieres hacer?");
+        textView.setText("Bien " + login.get(0)+ "! Te encuentras en"+content.getPrepTematica()+" "+tematicas.get(content.getExtraIndiceTematica())+" ,¿Que quieres hacer?");
 
-        ArrayList<String> registros=content.getRegistros(content.getExtraIndiceTematica());
+        ArrayList<String> registros=content.getRegistros();
 
         ListView listView=(ListView)findViewById(R.id.listViewRegister);
         //final ArrayList mLista = new ArrayList();
@@ -62,14 +59,5 @@ public class RegisterActivivty extends ModelActivity {
 
     }
 
-    private void showAudio(String nombre) throws IOException {
-        View view = new View(this);
-        AudioPlayer audio = new AudioPlayer(view);
-        audio.setAudioUri(Uri.parse(nombre));
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        view.setLayoutParams(params);
-        layout.addView(view);
-        audio.start();
-    }
+
 }

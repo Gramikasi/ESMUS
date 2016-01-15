@@ -6,6 +6,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.example.alejandro.esmus.vista.ListAdapter;
+
+import java.util.ArrayList;
 
 public class PhrasesActivity extends ModelActivity {
 
@@ -15,13 +22,28 @@ public class PhrasesActivity extends ModelActivity {
         setContentView(R.layout.activity_phrases);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ArrayList<String> login=new ArrayList<>();
+        login=pref.readPref();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        TextView textView=(TextView)findViewById(R.id.welcome_message_phrases);
+
+        //textView.setText("Bien " + login.get(0)+ "! Te encuentras en la "+tematicas.get(content.getExtraIndiceTematica())+" ,¿Que quieres hacer?");
+
+        ArrayList<String> frases=content.getFrases();
+
+        ListView listView=(ListView)findViewById(R.id.listViewPhrases);
+        //final ArrayList mLista = new ArrayList();
+        //final ArrayAdapter mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mLista);
+        //list.setAdapter(mAdapter);
+
+        ListAdapter adapter=new ListAdapter(this.getApplicationContext(),frases);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                content.putExtraIndiceFrase(position);
+                startModelActivity(ShowPhraseActivity.class);
             }
         });
     }

@@ -90,14 +90,14 @@ public  class Content {
 
 
     }
-    public ArrayList<String> getRegistros(int tematica)
+    public ArrayList<String> getRegistros()
     {
         ArrayList<String> registros=new ArrayList<>();
         String datos=bundle.getString(EXTRA_CONTENIDO);
         try {
 
             JSONArray contenido = new JSONArray(datos);
-            JSONArray registro=contenido.getJSONObject(tematica).getJSONArray("subtemas");
+            JSONArray registro=contenido.getJSONObject(getExtraIndiceTematica()).getJSONArray("subtemas");
 
             for (int i=0;i<registro.length();i++)
             {
@@ -114,6 +114,38 @@ public  class Content {
     public String getContenido(){
 
         return bundle.getString(EXTRA_CONTENIDO);
+    }
+    public String getPrepTematica()
+    {
+        String prep=null;
+        String datos=bundle.getString(EXTRA_CONTENIDO);
+        try {
+            JSONArray contenido = new JSONArray(datos);
+            prep=contenido.getJSONObject(getExtraIndiceTematica()).getString("prep");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return prep;
+    }
+    public ArrayList<String> getFrases()
+    {
+        ArrayList<String> frases=new ArrayList<>();
+        String datos=bundle.getString(EXTRA_CONTENIDO);
+        try {
+
+            JSONArray contenido = new JSONArray(datos);
+            JSONArray jfrases=contenido.getJSONObject(getExtraIndiceTematica()).getJSONArray("subtemas").getJSONObject(getExtraIndiceRegistro()).getJSONArray("frases");
+            //JSONArray jfrases=registros.getJSONObject(registro).getJSONArray("frases");
+
+            for (int i=0;i<jfrases.length(); i++) {
+                frases.add(jfrases.getJSONObject(i).getString("fr"));
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return frases;
     }
 
 
