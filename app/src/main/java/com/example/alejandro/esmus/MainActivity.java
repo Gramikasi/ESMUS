@@ -94,7 +94,7 @@ public class MainActivity extends ModelActivity
                             textView.setText("Hola " + login.get(0) + " " + login.get(1) + " has venido a " + login.get(2) + " de visita!Quizas podria ayudarte a comunicarte en alguno de estos sitios!");
 
                             ArrayList<String> tematicas=content.getTematicas();
-                            Toast.makeText(context.getApplicationContext(),tematicas.toString(),Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context.getApplicationContext(),tematicas.toString(),Toast.LENGTH_SHORT).show();
 
                             ListView listView=(ListView)findViewById(R.id.listViewMain);
                             ListAdapter adapter=new ListAdapter(this.context.getApplicationContext(),tematicas);
