@@ -27,10 +27,6 @@
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RegisterActivivty"
-            android:label="@string/title_activity_register_activivty"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".PhrasesActivity"
             android:label="@string/title_activity_phrases"
             android:theme="@style/AppTheme.NoActionBar" />
