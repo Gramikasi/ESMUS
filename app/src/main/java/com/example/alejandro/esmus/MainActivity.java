@@ -10,14 +10,17 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.json.JSONArray;
 import java.util.ArrayList;
 
 import com.example.alejandro.esmus.model.Network;
+import com.example.alejandro.esmus.vista.ListAdapter;
 import com.example.alejandro.esmus.vista.ProgressTask;
 
 
@@ -90,12 +93,28 @@ public class MainActivity extends ModelActivity
                             ArrayList<String> tematicas=content.getTematicas();
                             Toast.makeText(context.getApplicationContext(),tematicas.toString(),Toast.LENGTH_SHORT).show();
 
-                            //ListView listView=(ListView)findViewById(R.id.listView);
+                            ListView listView=(ListView)findViewById(R.id.listViewMain);
+                            ListAdapter adapter=new ListAdapter(this.context.getApplicationContext(),tematicas);
+                            listView.setAdapter(adapter);
+                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    content.putExtraIndiceTematica(position);
+                                    startModelActivity(RegisterActivivty.class);
+                                }
+                            });
                             //final ArrayList mLista = new ArrayList();
                             //final ArrayAdapter mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mLista);
                             //list.setAdapter(mAdapter);
 
-                            final View.OnClickListener listener= new View.OnClickListener(){
+
+
+
+
+
+
+
+                            /*final View.OnClickListener listener= new View.OnClickListener(){
                                 @Override
                                 public void onClick(View v) {
                                     int i= (int) v.getTag();
@@ -123,7 +142,7 @@ public class MainActivity extends ModelActivity
 
                                 //  mLista.add(button);
 
-                            }
+                            }*/
 
                             Log.i("esmus", "Despues de hacer el set" + pref.isDownload().toString());
                         }else

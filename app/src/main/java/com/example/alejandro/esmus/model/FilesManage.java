@@ -36,7 +36,7 @@ public class FilesManage
         }
 
         public FilesManage(){}
-
+        //Eliminar dependencias con vista!!! Quitar todos los context
 
         public boolean writeJson(String jsonArray,Context context)
         {
