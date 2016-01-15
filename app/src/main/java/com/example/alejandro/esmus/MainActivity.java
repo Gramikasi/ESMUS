@@ -1,5 +1,6 @@
 package com.example.alejandro.esmus;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -56,14 +57,16 @@ public class MainActivity extends ModelActivity
                         if (pref.isDownload()) {
 
                             Log.e("esmus","leyendo fichero json");
-                          JSONArray jsonArray=  new JSONArray(filesManage.readJson(context));
+                          JSONArray jsonArray=  new JSONArray(filesManage.readJson
+                                  (context.getApplicationContext().openFileInput("dataFile.json")));
 
                             return jsonArray;
                         }else{
                             if(Network.isConnected(context)) {
                                 Log.e("esmus", "descargando el json");
                                 JSONArray jsonArray = server.getJson("dataFile.json");
-                                filesManage.writeJson(jsonArray.toString(), context);
+                                filesManage.writeJson(jsonArray.toString(),
+                                        context.getApplicationContext().openFileOutput("dataFile.json", Context.MODE_PRIVATE));
                                 Log.i("esmus", "Antes de hacer el set" + pref.isDownload().toString());
                                 pref.setDownload();
 

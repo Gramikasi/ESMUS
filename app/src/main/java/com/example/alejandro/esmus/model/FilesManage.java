@@ -7,7 +7,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 
@@ -38,38 +40,36 @@ public class FilesManage
         public FilesManage(){}
         //Eliminar dependencias con vista!!! Quitar todos los context
 
-        public boolean writeJson(String jsonArray,Context context)
+        public boolean writeJson(String jsonArray,OutputStream outputStream)
         {
                 Boolean result=false;
                 try
                 {
-                        OutputStreamWriter fout= new OutputStreamWriter(context.getApplicationContext().openFileOutput("dataFile.json", Context.MODE_PRIVATE));
+                        OutputStreamWriter fout= new OutputStreamWriter(outputStream);
                         fout.write(jsonArray);
                         fout.close();
                         result=true;
                 }
                  catch (Exception e)
                  {
-                         Toast.makeText(context,"Error al escribir fichero desde memoria interna",Toast.LENGTH_SHORT).show();
                          Log.e("esmus", "Error al escribir fichero a memoria interna");
                 }
 
                 return result;
         }
 
-        public String readJson(Context context)
+        public String readJson(InputStream inputStream)
         {
                 String jsonArray=null;
 
                 try
                 {
-                        BufferedReader fin = new BufferedReader(new InputStreamReader(context.getApplicationContext().openFileInput("dataFile.json")));
+                        BufferedReader fin = new BufferedReader(new InputStreamReader(inputStream));
                         jsonArray = fin.readLine();
                         fin.close();
                 }
                 catch (Exception ex)
                 {
-                        Toast.makeText(context,"Error al leer fichero desde memoria interna",Toast.LENGTH_SHORT).show();
                         Log.e("esmus", "Error al leer fichero desde memoria interna");
                 }
 
@@ -78,19 +78,18 @@ public class FilesManage
         }
 
         //guardar ficheros de audio
-        public String writeAudio( byte[] audio, Context context, String nombreAudio) throws IOException {
-                String pathFichero=null;
-                FileOutputStream fos=context.getApplicationContext().openFileOutput(nombreAudio, Context.MODE_PRIVATE);
-                Log.e("esmus","writeAudio "+ pathFichero);
-                pathFichero=context.getFilesDir().getAbsolutePath();
-                pathFichero.concat(nombreAudio);
-                Log.e("esmus","writeAudio "+ pathFichero.concat(nombreAudio));
+        public String writeAudio( byte[] audio, String pathFichero, String nombreAudio) throws IOException {
+
+                pathFichero= String.format("%s/%s", pathFichero,nombreAudio);
+                FileOutputStream fos=new FileOutputStream(pathFichero);
+                Log.e("esmus", "writeAudio " + pathFichero);
                 DataOutputStream dos=new DataOutputStream(fos);
                 dos.write(audio);
                 dos.close();
                 fos.close();
 
-                return pathFichero.concat(nombreAudio);
+
+                return pathFichero;
 
         }
 
