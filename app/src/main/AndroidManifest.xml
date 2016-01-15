@@ -31,6 +31,10 @@
             android:label="@string/title_activity_phrases"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".RegisterActivivty"
+            android:label="@string/title_activity_register_activivty"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ShowPhraseActivity"
             android:label="@string/title_activity_show_phrase"
             android:theme="@style/AppTheme.NoActionBar" />
