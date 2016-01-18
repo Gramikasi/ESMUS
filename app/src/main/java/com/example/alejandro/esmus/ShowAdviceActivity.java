@@ -26,4 +26,5 @@ public class ShowAdviceActivity extends ModelActivity {
         });
     }
 
+    //TODO: meter un acceso al home
 }

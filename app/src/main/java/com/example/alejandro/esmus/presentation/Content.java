@@ -44,7 +44,8 @@ public  class Content {
     }
 
 
-
+//TODO: devolver el pathG y el path
+    //TODO: frase normal y la frase traducida para mostrar en showPhare
 
     public int getExtraIndiceFrase(){
 

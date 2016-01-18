@@ -27,6 +27,8 @@ import org.json.JSONException;
 
 import java.io.IOException;
 
+import static android.widget.Toast.*;
+
 public class ShowPhraseActivity extends ModelActivity {
 
 
@@ -45,13 +47,22 @@ public class ShowPhraseActivity extends ModelActivity {
 
         new ProgressTask<String>(this){
 
+            //TODO: comprobacion si es el path es diferente de null
+            //TODO: comprobar si existe el fichero y sino existe descargarlo
+
+//TODO: meter un acceso al home
+// TODO: arreglar el fallo del reproductor
+
 
             @Override
             protected String  work() throws Exception {
+                String nombreF=String.valueOf(content.getExtraIndiceTematica())
+                        +String.valueOf(content.getExtraIndiceRegistro())
+                        +String.valueOf(content.getExtraIndiceFrase())+".aac";
+               path= filesManage.writeAudio(server.getAudio(nombreF),
+                        Environment.getExternalStorageDirectory().getAbsolutePath(),nombreF);
 
-               path= filesManage.writeAudio(server.getAudio("000.aac"),
-                        Environment.getExternalStorageDirectory().getAbsolutePath(),"000.aac");
-
+                Log.i("esmus",nombreF);
 
                 return path;
 
@@ -89,14 +100,14 @@ public class ShowPhraseActivity extends ModelActivity {
     public void recordAudio(View view) {
 
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_MICROPHONE)) {
-            Toast.makeText(this, R.string.no_micro, Toast.LENGTH_SHORT).show();
+            makeText(this, R.string.no_micro, LENGTH_SHORT).show();
         } else {
             Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
             if(intent.resolveActivity(getPackageManager()) != null){
                 startActivityForResult(intent, AUDIO_REQUEST_CODE);
 
             } else {
-                Toast.makeText(this, "no tienes aplicacion disponible", Toast.LENGTH_SHORT).show();
+                makeText(this, "no tienes aplicacion disponible", LENGTH_SHORT).show();
             }
         }
 
@@ -122,7 +133,6 @@ public class ShowPhraseActivity extends ModelActivity {
             }
         }
     }
-
 
 
 
