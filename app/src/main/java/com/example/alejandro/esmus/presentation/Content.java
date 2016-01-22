@@ -44,8 +44,6 @@ public  class Content {
     }
 
 
-//TODO: devolver el pathG y el path
-    //TODO: frase normal y la frase traducida para mostrar en showPhare
 
     public int getExtraIndiceFrase(){
 
@@ -150,6 +148,72 @@ public  class Content {
     }
 
 
+    public String getFrase() throws JSONException {
+
+        String frase=null;
+        String datos=bundle.getString(EXTRA_CONTENIDO);
+        JSONArray jsonArray=new JSONArray(datos.toString());
+        JSONArray frases=null;
+
+        frases= jsonArray.getJSONObject(getExtraIndiceTematica()).
+                getJSONArray("subtemas").getJSONObject(getExtraIndiceRegistro()).getJSONArray("frases");
+
+        frase=frases.getJSONObject(getExtraIndiceFrase()).getString("fr");
+
+
+        return frase;
+
+    }
+
+    public String getTraduccion() throws JSONException {
+
+        String traduccion=null;
+
+        String datos=bundle.getString(EXTRA_CONTENIDO);
+        JSONArray jsonArray=new JSONArray(datos.toString());
+        JSONArray frases=null;
+
+        frases= jsonArray.getJSONObject(getExtraIndiceTematica()).
+                getJSONArray("subtemas").getJSONObject(getExtraIndiceRegistro()).getJSONArray("frases");
+        traduccion=frases.getJSONObject(getExtraIndiceFrase()).getString("tr");
+
+        return traduccion;
+
+
+    }
+
+    public String getPath() throws JSONException {
+        String path=null;
+
+        String datos=bundle.getString(EXTRA_CONTENIDO);
+        JSONArray jsonArray=new JSONArray(datos.toString());
+        JSONArray frases= jsonArray.getJSONObject(getExtraIndiceTematica()).
+                getJSONArray("subtemas").getJSONObject(getExtraIndiceRegistro()).getJSONArray("frases");
+
+        path=frases.getJSONObject(getExtraIndiceFrase()).getString("path");
+
+        path=frases.getJSONObject(getExtraIndiceFrase()).getString("path");
+
+        return path;
+
+    }
+
+
+    public String getPathG() throws JSONException {
+        String pathg=null;
+
+        String datos=bundle.getString(EXTRA_CONTENIDO);
+        JSONArray jsonArray=new JSONArray(datos.toString());
+        JSONArray frases= jsonArray.getJSONObject(getExtraIndiceTematica()).
+                getJSONArray("subtemas").getJSONObject(getExtraIndiceRegistro()).getJSONArray("frases");
+
+
+        pathg=frases.getJSONObject(getExtraIndiceFrase()).getString("pathG");
+
+        return pathg;
+
+
+    }
     public Bundle getBundle() {
         return bundle;
     }

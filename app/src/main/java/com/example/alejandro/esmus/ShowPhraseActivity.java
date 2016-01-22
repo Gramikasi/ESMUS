@@ -15,27 +15,36 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alejandro.esmus.presentation.Content;
 import com.example.alejandro.esmus.vista.AudioPlayer;
+import com.example.alejandro.esmus.vista.ListAdapter;
 import com.example.alejandro.esmus.vista.ProgressTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static android.widget.Toast.*;
 
 public class ShowPhraseActivity extends ModelActivity {
 
 
+    //TODO: meter un acceso al home
     private LinearLayout layout;
     private String path;
     private static final int  AUDIO_REQUEST_CODE = 1;
     private Uri uri;
+    String nombreF;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,47 +54,114 @@ public class ShowPhraseActivity extends ModelActivity {
         setSupportActionBar(toolbar);
 
 
-        new ProgressTask<String>(this){
-
-            //TODO: comprobacion si es el path es diferente de null
-            //TODO: comprobar si existe el fichero y sino existe descargarlo
-
-//TODO: meter un acceso al home
-// TODO: arreglar el fallo del reproductor
+        final String nombreF=String.valueOf(content.getExtraIndiceTematica())
+                +String.valueOf(content.getExtraIndiceRegistro())
+                +String.valueOf(content.getExtraIndiceFrase())+".aac";
 
 
+        TextView textView=(TextView)findViewById(R.id.phrase_texto);
+        textView.setText("Frase y Traducción");
+
+
+
+        ListView listView=(ListView)findViewById(R.id.listViewShowPhrases);
+        ArrayList<String> frases=new ArrayList<>();
+        try {
+            frases.add(0,content.getFrase());
+            frases.add(1,content.getTraduccion());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        ListAdapter adapter=new ListAdapter(this.getApplicationContext(),frases);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            protected String  work() throws Exception {
-                String nombreF=String.valueOf(content.getExtraIndiceTematica())
-                        +String.valueOf(content.getExtraIndiceRegistro())
-                        +String.valueOf(content.getExtraIndiceFrase())+".aac";
-               path= filesManage.writeAudio(server.getAudio(nombreF),
-                        Environment.getExternalStorageDirectory().getAbsolutePath(),nombreF);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Log.i("esmus",nombreF);
+            }
+        });
+        layout = (LinearLayout) findViewById(R.id.showPharase_activity_linear);
 
-                return path;
+        final File dir = new File(Environment.getExternalStorageDirectory() + "/ESMUS/");
+        final File aux= new File(Environment.getExternalStorageDirectory() + "/ESMUS/nombreF");
+
+
+        try {
+            if(content.getPath().length()<1  ||  !aux.exists() ){
+
+
+
+                new ProgressTask<String>(this){
+
+
+
+                    @Override
+                    protected String  work() throws Exception {
+
+                        Log.e("esmus","descargando audio");
+
+                        path= filesManage.writeAudio(server.getAudio(nombreF),
+                                dir.getAbsolutePath(),nombreF);
+
+                        Log.i("esmus",nombreF);
+
+                        return path;
+
+                    }
+
+                    @Override
+                    protected void onFinish(String  result) {
+
+                        try {
+
+                            content.guardarPathDescarga(path);
+                            filesManage.writeJson(content.getContenido(),
+                                    context.getApplicationContext().openFileOutput("dataFile.json", Context.MODE_PRIVATE));
+                            
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.execute();
+
+
+            }else{
+                path=content.getPath();
+                Log.e("esmus","audio descargado de antes");
 
             }
 
-            @Override
-            protected void onFinish(String  result) {
 
-                try {
-                    showAudio(path);
-                    content.guardarPathDescarga(path);
-                    filesManage.writeJson(content.getContenido(),
-                            context.getApplicationContext().openFileOutput("dataFile.json", Context.MODE_PRIVATE));
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
     }
 
+    public void escucharAudio( View view){
+
+        try {
+            showAudio(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void escucharGrabacion(View view)
+    {
+
+        try {
+            showAudio(content.getPathG());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
     private void showAudio(String nombre) throws IOException {
         View view = new View(this);
         AudioPlayer audio = new AudioPlayer(view);
@@ -104,12 +180,15 @@ public class ShowPhraseActivity extends ModelActivity {
         } else {
             Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
             if(intent.resolveActivity(getPackageManager()) != null){
+                Button button= (Button) findViewById(R.id.button3_showPhare);
+                button.setVisibility(View.VISIBLE);
                 startActivityForResult(intent, AUDIO_REQUEST_CODE);
 
             } else {
                 makeText(this, "no tienes aplicacion disponible", LENGTH_SHORT).show();
             }
         }
+
 
     }
 
