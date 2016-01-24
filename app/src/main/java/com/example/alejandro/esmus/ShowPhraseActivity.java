@@ -13,6 +13,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -38,8 +41,6 @@ import static android.widget.Toast.*;
 
 public class ShowPhraseActivity extends ModelActivity {
 
-
-    //TODO: meter un acceso al home
     private LinearLayout layout;
     private String path;
     private static final int  AUDIO_REQUEST_CODE = 1;
@@ -53,16 +54,12 @@ public class ShowPhraseActivity extends ModelActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         final String nombreF=String.valueOf(content.getExtraIndiceTematica())
                 +String.valueOf(content.getExtraIndiceRegistro())
                 +String.valueOf(content.getExtraIndiceFrase())+".aac";
 
-
         TextView textView=(TextView)findViewById(R.id.phrase_texto);
         textView.setText("Frase y Traducción");
-
-
 
         ListView listView=(ListView)findViewById(R.id.listViewShowPhrases);
         ArrayList<String> frases=new ArrayList<>();
@@ -72,7 +69,6 @@ public class ShowPhraseActivity extends ModelActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
         ListAdapter adapter=new ListAdapter(this.getApplicationContext(),frases);
         listView.setAdapter(adapter);
@@ -85,17 +81,15 @@ public class ShowPhraseActivity extends ModelActivity {
         layout = (LinearLayout) findViewById(R.id.showPharase_activity_linear);
 
         final File dir = new File(Environment.getExternalStorageDirectory() + "/ESMUS/");
-        final File aux= new File(Environment.getExternalStorageDirectory() + "/ESMUS/nombreF");
-
+        final File aux= new File(Environment.getExternalStorageDirectory() + "/ESMUS/"+
+                String.valueOf(content.getExtraIndiceTematica())
+                +String.valueOf(content.getExtraIndiceRegistro())
+                +String.valueOf(content.getExtraIndiceFrase())+".aac");
 
         try {
-            if(content.getPath().length()<1  ||  !aux.exists() ){
-
-
+            if(content.getPath()==null  ||  aux.exists()==false ){
 
                 new ProgressTask<String>(this){
-
-
 
                     @Override
                     protected String  work() throws Exception {
@@ -119,7 +113,7 @@ public class ShowPhraseActivity extends ModelActivity {
                             content.guardarPathDescarga(path);
                             filesManage.writeJson(content.getContenido(),
                                     context.getApplicationContext().openFileOutput("dataFile.json", Context.MODE_PRIVATE));
-                            
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -133,12 +127,9 @@ public class ShowPhraseActivity extends ModelActivity {
 
             }
 
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
     }
 
@@ -189,7 +180,6 @@ public class ShowPhraseActivity extends ModelActivity {
             }
         }
 
-
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -213,6 +203,25 @@ public class ShowPhraseActivity extends ModelActivity {
         }
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.app_activity_actions, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                startModelActivity(MainActivity.class);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 
 }

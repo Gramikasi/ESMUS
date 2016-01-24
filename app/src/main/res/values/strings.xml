@@ -7,11 +7,11 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_model">ModelActivity</string>
     <string name="title_activity_login">Login</string>
-    <string name="title_activity_register_activivty">RegisterActivivty</string>
-    <string name="title_activity_phrases">PhrasesActivity</string>
-    <string name="title_activity_show_phrase">ShowPhraseActivity</string>
-    <string name="title_activity_advises">AdvisesActivity</string>
-    <string name="title_activity_show_advice">ShowAdviceActivity</string>
+    <string name="title_activity_register_activivty">ESMUS</string>
+    <string name="title_activity_phrases">ESMUS</string>
+    <string name="title_activity_show_phrase">ESMUS</string>
+    <string name="title_activity_advises">ESMUS</string>
+    <string name="title_activity_show_advice">ESMUS</string>
     <string name="welcome_text">¡Bienvenido a ESMUS!\nUn pequeño regustro inicial para saber un poco mas de ti y podras comenzar a usar la app!</string>
     <string name="login_name">Nombre:</string>
     <string name="login_surname">Apellido:</string>

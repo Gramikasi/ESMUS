@@ -1,6 +1,8 @@
 package com.example.alejandro.esmus;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -223,17 +225,19 @@ public class MainActivity extends ModelActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_wordReference) {
 
-        } else if (id == R.id.nav_slideshow) {
+            showHtml("http://www.wordreference.com/es/");
+        } else if (id == R.id.nav_ultimasconsultas) {
+            // TODO:visionar las ultimas consultas
 
-        } else if (id == R.id.nav_manage) {
+        }else if(id == R.id.nav_ajustes){
+            //TODO : Añadir una actividad para cambiar los datos de login
+        }else if(id == R.id.nav_google){
+            showHtml("https://translate.google.es/?hl=es");
+        }else if(id== R.id.nav_consejos){
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+            startModelActivity(ShowAdviceActivity.class);
 
         }
 
@@ -242,5 +246,12 @@ public class MainActivity extends ModelActivity
         return true;
     }
 
+    private void showHtml(String site){
+
+            Uri uri = Uri.parse(site);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+
+    }
 
 }
