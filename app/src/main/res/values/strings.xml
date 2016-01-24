@@ -22,4 +22,5 @@
     <string name="button_save">Continuar</string>
     <string name="error_login">FALTAN DATOS!Inroduce todos los datos por favor, no seran utlizados para ninguna actividad clandestina o ilegal!Ni los venderemos!;-)</string>
     <string name="no_micro" />
+    <string name="title_activity_ajustes">Settings</string>
 </resources>

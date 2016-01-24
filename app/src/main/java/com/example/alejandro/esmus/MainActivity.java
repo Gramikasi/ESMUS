@@ -174,11 +174,6 @@ public class MainActivity extends ModelActivity
                 } catch (IOException e) {
                     e.printStackTrace();}*/
 
-
-
-
-
-
         }else
         {
             startModelActivity(LoginActivity.class);
@@ -232,7 +227,8 @@ public class MainActivity extends ModelActivity
             // TODO:visionar las ultimas consultas
 
         }else if(id == R.id.nav_ajustes){
-            //TODO : Añadir una actividad para cambiar los datos de login
+            startModelActivity(AjustesActivity.class);
+
         }else if(id == R.id.nav_google){
             showHtml("https://translate.google.es/?hl=es");
         }else if(id== R.id.nav_consejos){

@@ -22,8 +22,6 @@ import java.util.ArrayList;
 
 public class RegisterActivivty extends ModelActivity {
 
-
-////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

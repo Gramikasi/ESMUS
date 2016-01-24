@@ -54,6 +54,31 @@ public class Preferences {
         SharedPreferences.Editor editor=pref.edit();
         editor.putBoolean(EXTRA_FILEDOWNLOAD, true);
         editor.commit();
-        Log.i("esmus","estamos en el set");
+        Log.i("esmus", "estamos en el set");
+    }
+
+
+    public void cambiarNombre(String login){
+
+        SharedPreferences.Editor editor=pref.edit();
+        editor.putString(EXTRA_LOGIN_N,login);
+        editor.commit();
+
+    }
+
+    public void cambiarApellido(String apellido){
+
+        SharedPreferences.Editor editor=pref.edit();
+        editor.putString(EXTRA_LOGIN_S,apellido);
+        editor.commit();
+
+    }
+
+    public void cambiarCiudad(String ciudad){
+
+        SharedPreferences.Editor editor=pref.edit();
+        editor.putString(EXTRA_COUNTRY,ciudad);
+        editor.commit();
+
     }
 }
