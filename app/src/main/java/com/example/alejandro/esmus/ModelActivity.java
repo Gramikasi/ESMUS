@@ -45,10 +45,7 @@ public abstract class ModelActivity extends AppCompatActivity {
             Log.e("esmus", "directorio esmus creado para memoria externa");
             dir.mkdir();
         }
-
     }
-
-
 
     protected <T> void startModelActivity(Class<T> cls){
         Intent intent= newIntent(cls);

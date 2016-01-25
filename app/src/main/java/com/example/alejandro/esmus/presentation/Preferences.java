@@ -57,6 +57,12 @@ public class Preferences {
         Log.i("esmus", "estamos en el set");
     }
 
+  public void offDowload(){
+
+      SharedPreferences.Editor editor=pref.edit();
+      editor.putBoolean(EXTRA_FILEDOWNLOAD, false);
+      editor.commit();
+  }
 
     public void cambiarNombre(String login){
 

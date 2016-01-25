@@ -1,14 +1,15 @@
 package com.example.alejandro.esmus;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Environment;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+import java.io.File;
 
 public class AjustesActivity extends ModelActivity {
 
@@ -18,14 +19,13 @@ public class AjustesActivity extends ModelActivity {
         setContentView(R.layout.activity_ajustes);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
     }
 
     public void cambiarNombre(View view){
 
-
         EditText name=(EditText)findViewById(R.id.ajustes_name);
         pref.cambiarNombre(name.getText().toString());
+        Toast.makeText(this,"Nombre cambiado a "+ name.getText(),Toast.LENGTH_LONG).show();
 
     }
 
@@ -33,6 +33,7 @@ public class AjustesActivity extends ModelActivity {
 
         EditText apellido=(EditText)findViewById(R.id.ajustes_surname);
         pref.cambiarApellido(apellido.getText().toString());
+        Toast.makeText(this,"Apellido cambiado a "+ apellido.getText(),Toast.LENGTH_LONG).show();
 
 
     }
@@ -40,8 +41,34 @@ public class AjustesActivity extends ModelActivity {
 
         EditText name=(EditText)findViewById(R.id.ajustes_country);
         pref.cambiarCiudad(name.getText().toString());
+        Toast.makeText(this,"Ciudad cambiado a "+ name.getText(),Toast.LENGTH_LONG).show();
 
 
+    }
+
+    public void menu(View view){
+
+        startModelActivity(MainActivity.class);
+    }
+    public void borrarDatos(View view){
+
+        File dir = new File(Environment.getExternalStorageDirectory() + "/ESMUS/");
+        BorradoRecursivo(dir);
+        this.getApplicationContext().getFilesDir().delete();
+              pref.offDowload();
+        Toast.makeText(this,"Introduce tus nuevos datos",Toast.LENGTH_LONG).show();
+        startModelActivity(LoginActivity.class);
+
+    }
+
+    void BorradoRecursivo(File Directory) {
+        if (Directory.isDirectory()) {
+            for (File child : Directory.listFiles()) {
+                BorradoRecursivo(child);
+            }
+        }
+
+        Directory.delete();
     }
 
     @Override
@@ -62,7 +89,6 @@ public class AjustesActivity extends ModelActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
 }
 

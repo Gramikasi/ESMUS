@@ -24,20 +24,17 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.alejandro.esmus.presentation.Content;
 import com.example.alejandro.esmus.vista.AudioPlayer;
 import com.example.alejandro.esmus.vista.ListAdapter;
 import com.example.alejandro.esmus.vista.ProgressTask;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import static android.widget.Toast.*;
+
 
 public class ShowPhraseActivity extends ModelActivity {
 
@@ -46,6 +43,7 @@ public class ShowPhraseActivity extends ModelActivity {
     private static final int  AUDIO_REQUEST_CODE = 1;
     private Uri uri;
     String nombreF;
+    private AudioPlayer audio=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,13 +79,14 @@ public class ShowPhraseActivity extends ModelActivity {
         layout = (LinearLayout) findViewById(R.id.showPharase_activity_linear);
 
         final File dir = new File(Environment.getExternalStorageDirectory() + "/ESMUS/");
-        final File aux= new File(Environment.getExternalStorageDirectory() + "/ESMUS/"+
+        final String string =Environment.getExternalStorageDirectory() + "/ESMUS/"+
                 String.valueOf(content.getExtraIndiceTematica())
                 +String.valueOf(content.getExtraIndiceRegistro())
-                +String.valueOf(content.getExtraIndiceFrase())+".aac");
+                +String.valueOf(content.getExtraIndiceFrase())+".aac";
 
         try {
-            if(content.getPath()==null  ||  aux.exists()==false ){
+
+            if(!server.isExist(content.getPath(),string) ){
 
                 new ProgressTask<String>(this){
 
@@ -102,7 +101,6 @@ public class ShowPhraseActivity extends ModelActivity {
                         Log.i("esmus",nombreF);
 
                         return path;
-
                     }
 
                     @Override
@@ -120,7 +118,6 @@ public class ShowPhraseActivity extends ModelActivity {
                     }
                 }.execute();
 
-
             }else{
                 path=content.getPath();
                 Log.e("esmus","audio descargado de antes");
@@ -130,7 +127,6 @@ public class ShowPhraseActivity extends ModelActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     public void escucharAudio( View view){
@@ -144,7 +140,6 @@ public class ShowPhraseActivity extends ModelActivity {
 
     public void escucharGrabacion(View view)
     {
-
         try {
             showAudio(content.getPathG());
         } catch (IOException e) {
@@ -155,7 +150,7 @@ public class ShowPhraseActivity extends ModelActivity {
     }
     private void showAudio(String nombre) throws IOException {
         View view = new View(this);
-        AudioPlayer audio = new AudioPlayer(view);
+        audio = new AudioPlayer(view);
         audio.setAudioUri(Uri.parse(nombre));
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -179,7 +174,6 @@ public class ShowPhraseActivity extends ModelActivity {
                 makeText(this, "no tienes aplicacion disponible", LENGTH_SHORT).show();
             }
         }
-
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -197,12 +191,10 @@ public class ShowPhraseActivity extends ModelActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                     break;
             }
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -222,7 +214,15 @@ public class ShowPhraseActivity extends ModelActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    @Override
+    public void onBackPressed()
+    {
+        if(audio.isPlaying()){
+            audio.pause();
+            super.onBackPressed();
+        }
 
+    }
 
 }
 
