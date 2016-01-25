@@ -1,5 +1,6 @@
 package com.example.alejandro.esmus;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -8,11 +9,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.example.alejandro.esmus.vista.AudioPlayer;
+import com.example.alejandro.esmus.vista.ListAdapter;
+
+import java.util.ArrayList;
 
 public class ShowAdviceActivity extends ModelActivity {
 
@@ -25,9 +31,20 @@ public class ShowAdviceActivity extends ModelActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//TODO: DESCARGAR JSON DE CONSEJOS
 
-        layout = (LinearLayout) findViewById(R.id.linear_showadvise);
+        ListView listView=(ListView)findViewById(R.id.listViewAdviseShow);
+        final ArrayList<String> consejos=content.content.getListaSubBotones();
+
+        ListAdapter adapter=new ListAdapter(this.getApplicationContext(),consejos);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showHtml(consejos.getUrl(position));
+            }
+        });
+
+
 
     }
 
@@ -49,7 +66,13 @@ public class ShowAdviceActivity extends ModelActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    private void showHtml(String site){
 
+        Uri uri = Uri.parse(site);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+
+    }
 
 
 

@@ -12,4 +12,26 @@
     tools:context="com.example.alejandro.esmus.AdvisesActivity"
     tools:showIn="@layout/activity_advises">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/linear_consejos">
+
+
+        <TextView
+            android:id="@+id/phrase_consejo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ListView
+            android:id="@+id/listViewAdvise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ListView>
+
+
+
+    </LinearLayout>
 </RelativeLayout>
