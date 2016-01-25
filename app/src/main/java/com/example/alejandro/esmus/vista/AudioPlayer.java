@@ -57,7 +57,7 @@ import java.io.IOException;
         public void onPrepared(MediaPlayer np){
             controller.setMediaPlayer(this);
             controller.setAnchorView(view);
-            controller.show(0);// nunca se ocultan los botones
+          //  controller.show(0);// nunca se ocultan los botones
         }
         @Override
         public void start(){
@@ -125,4 +125,6 @@ import java.io.IOException;
 
             return false;
         }
+
+
 }

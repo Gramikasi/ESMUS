@@ -12,4 +12,53 @@
     tools:context="com.example.alejandro.esmus.ShowPhraseActivity"
     tools:showIn="@layout/activity_show_phrase">
 
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:id="@+id/showPharase_activity_linear"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/phrase_texto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ListView
+            android:id="@+id/listViewShowPhrases"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ListView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="EscucharTraduccion"
+            android:onClick="escucharAudio"
+            android:id="@+id/button_showPhrase" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GrabarTraduccion"
+            android:onClick="recordAudio"
+            android:id="@+id/button2_showPhare" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="escucharTraduccion"
+            android:visibility="invisible"
+            android:onClick="escucharGrabacion"
+            android:id="@+id/button3_showPhare" />
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
 </RelativeLayout>

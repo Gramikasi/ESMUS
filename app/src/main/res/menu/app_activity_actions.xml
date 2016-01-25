@@ -7,5 +7,10 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
 
+    <!-- boton de vuelta al home -->
+    <item android:id="@+id/action_home"
+        android:icon="@drawable/ic_action_home"
+        android:title="Home"
+        app:showAsAction="always" />
 
 </menu>

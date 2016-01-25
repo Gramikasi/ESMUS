@@ -12,4 +12,13 @@
     tools:context="com.example.alejandro.esmus.ShowAdviceActivity"
     tools:showIn="@layout/activity_show_advice">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/linear_showadvise">
+
+
+
+    </LinearLayout>
 </RelativeLayout>
