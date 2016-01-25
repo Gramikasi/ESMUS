@@ -182,7 +182,7 @@ public class ShowPhraseActivity extends ModelActivity {
             switch (requestCode) {
                 case  AUDIO_REQUEST_CODE:
 
-                            path=data.getDataString();
+                    path=data.getDataString();
                     try {
                         showAudio(path);
                         content.guardarPathGrabado(path);
@@ -225,5 +225,3 @@ public class ShowPhraseActivity extends ModelActivity {
     }
 
 }
-
-

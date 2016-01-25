@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -21,7 +22,8 @@ public  class Content {
     private final static String EXTRA_CONTENIDO = "com.example.alejandro.esmus.extra_contenido";
     private final static String EXTRA_INDICE_TEMATICA="com.example.alejandro.esmus.indicetematica";
     private final static String EXTRA_INDICE_REGISTRO="com.example.alejandro.esmus.indiRegistro";
-
+    private final static String EXTRA_INDICE_FRASE="com.example.alejandro.esmus.indicefrase";
+    private final static String EXTRA_LAST="com.example.alejandro.esmus.last";
 
 
     public void putExtraIndiceFrase(int i){
@@ -66,7 +68,6 @@ public  class Content {
 
 
 
-    private final static String EXTRA_INDICE_FRASE="com.example.alejandro.esmus.indicefrase";
 
     public Content(Bundle bundle) {
 
@@ -275,8 +276,47 @@ public  class Content {
             e.printStackTrace();
         }
 
+    }
+    public void putLast()
+    {
+        String last=bundle.getString(EXTRA_LAST);
+
+        try {
+            JSONObject newJ=new JSONObject();
+            newJ.put("tematica",getExtraIndiceTematica());
+            newJ.put("registro",getExtraIndiceRegistro());
+            newJ.put("frase",getExtraIndiceFrase());
 
 
+            JSONArray jsonLast=new JSONArray(last);
+
+            if(jsonLast.length()>10)
+            {
+                //TODO: hacer shift de consultas
+                //jsonLast.remove(9);
+                //for(int i=8;i==0;i--)
+                //{}
+            }
+            else{
+                jsonLast.put(newJ);
+            }
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        bundle.putString(EXTRA_LAST,last.toString());
+
+    }
+    public JSONArray getLast() throws JSONException {
+        String last=bundle.getString(EXTRA_LAST);
+
+        JSONArray jsonLast=new JSONArray(last);
+
+        return jsonLast;
     }
 
 
