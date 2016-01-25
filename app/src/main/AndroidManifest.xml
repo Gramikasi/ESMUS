@@ -60,9 +60,11 @@
         <activity
             android:name=".AjustesActivity"
             android:label="@string/title_activity_ajustes"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".LastPhrases"
+            android:label="@string/title_activity_last_phrases"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
-
-
