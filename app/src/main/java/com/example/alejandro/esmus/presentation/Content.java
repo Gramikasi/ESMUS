@@ -344,7 +344,7 @@ public  class Content {
     }
     public void putLast()
     {
-        String last=bundle.getString(EXTRA_LAST);
+        String last=bundle.getString(EXTRA_LAST,"[]");
 
         try {
             JSONObject newJ=new JSONObject();
