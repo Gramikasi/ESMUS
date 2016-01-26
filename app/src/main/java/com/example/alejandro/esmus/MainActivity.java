@@ -101,6 +101,7 @@ public class MainActivity extends ModelActivity
 
                         if (result!=null)
                         {
+                            content.guardarPathFotos(fotos);
                             Log.e("esmus", "añadiendo cotenido");
                             content.putContenido(result);
 
@@ -113,7 +114,7 @@ public class MainActivity extends ModelActivity
 
 
                             ListView listView=(ListView)findViewById(R.id.listViewMain);
-                            ListAdapter adapter=new ListAdapter(this.context.getApplicationContext(),tematicas,fotos);
+                            ListAdapter adapter=new ListAdapter(this.context.getApplicationContext(),tematicas,   content.getPathFotos());
                             listView.setAdapter(adapter);
                             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
