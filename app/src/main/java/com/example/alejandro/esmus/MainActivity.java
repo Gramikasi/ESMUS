@@ -67,17 +67,19 @@ public class MainActivity extends ModelActivity
                                   (context.getApplicationContext().openFileInput("dataFile.json")));
                             String pathFotos= filesManage.readJson
                                     (context.getApplicationContext().openFileInput("fotosPath.txt"));
-                            Log.e("esmus","devolviendo pathFotos en la main"+pathFotos);
+
                             content.guardarPathFotos(pathFotos.toString());
+                            content.putContenido(jsonArray);
+
 
                             return jsonArray;
                         }else{
                             if(Network.isConnected(context)) {
                                 Log.e("esmus", "descargando el json");
                                 JSONArray jsonArray = server.getJson("dataFile.json");
+                                Log.e("esmus","JSONDESCARGADO MAIN"+jsonArray.toString());
                                 filesManage.writeJson(jsonArray.toString(),
                                         context.getApplicationContext().openFileOutput("dataFile.json", Context.MODE_PRIVATE));
-                                Log.i("esmus", "Antes de hacer el set" + pref.isDownload().toString());
                                 pref.setDownload();
                                 content.putContenido(jsonArray);
                                 ArrayList<String> arrayList= content.getTematicas();
@@ -112,20 +114,20 @@ public class MainActivity extends ModelActivity
                         if (result!=null)
                         {
 
-                            Log.e("esmus", content.getPathFotos().toString());
-                            Log.e("esmus", "añadiendo cotenido");
                             content.putContenido(result);
+
 
 
                             TextView textView=(TextView)findViewById(R.id.welcome_message_main);
 
-                            textView.setText("Hola " + login.get(0) + " " + login.get(1) + " has venido a " + login.get(2) + " de visita!Quizas podria ayudarte a comunicarte en alguno de estos sitios!");
+                          textView.setText("Hola " + login.get(0) + " " + login.get(1) + " has venido a " + login.get(2) + " de visita!Quizas podria ayudarte a comunicarte en alguno de estos sitios!");
 
+                            //textView.setText(content.getContenido());
                             ArrayList<String> tematicas=content.getTematicas();
 
 
                             ListView listView=(ListView)findViewById(R.id.listViewMain);
-                            ListAdapter adapter=new ListAdapter(this.context.getApplicationContext(),tematicas,   content.getPathFotos());
+                            ListAdapter adapter=new ListAdapter(this.context.getApplicationContext(),tematicas,content.getPathFotos());
                             listView.setAdapter(adapter);
                             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
@@ -136,7 +138,6 @@ public class MainActivity extends ModelActivity
                             });
 
 
-                            Log.i("esmus", "Despues de hacer el set" + pref.isDownload().toString());
                         }else
                         {
                             TextView textView=(TextView)findViewById(R.id.welcome_message_main);
