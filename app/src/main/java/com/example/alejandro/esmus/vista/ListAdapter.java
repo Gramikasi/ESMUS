@@ -48,6 +48,7 @@ public class ListAdapter extends ArrayAdapter<ArrayList<String>> {
         TextView lblTitulo = (TextView)item.findViewById(R.id.textView2);
         lblTitulo.setText(data.get(position).toString());
 
+
         if(imagenes) {
             ImageView image = (ImageView) item.findViewById(R.id.imageView2);
 
