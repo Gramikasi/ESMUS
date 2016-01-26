@@ -33,7 +33,7 @@ import com.example.alejandro.esmus.vista.ProgressTask;
 public class MainActivity extends ModelActivity
         implements NavigationView.OnNavigationItemSelectedListener {
         ArrayList<String> login=new ArrayList<>();
-        final ArrayList <String> fotos=new ArrayList<String>();
+        final ArrayList <String> fotos=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,12 +65,11 @@ public class MainActivity extends ModelActivity
                             Log.e("esmus","leyendo fichero json");
                           JSONArray jsonArray=  new JSONArray(filesManage.readJson
                                   (context.getApplicationContext().openFileInput("dataFile.json")));
-                            String pathFotos= filesManage.readJson
+              String pathFotos= filesManage.readJson
                                     (context.getApplicationContext().openFileInput("fotosPath.txt"));
 
                             content.guardarPathFotos(pathFotos.toString());
                             content.putContenido(jsonArray);
-
 
                             return jsonArray;
                         }else{
@@ -87,16 +86,9 @@ public class MainActivity extends ModelActivity
                                 for(String tema: arrayList){
 
 
-                                    String dato=filesManage.writeAudio(server.getAudio(tema.replaceAll(" ","")+ ".jpg"),
-                                            dir.getAbsolutePath(), tema.replaceAll(" ","") + ".jpg");
-                                   fotos.add(dato);
+                                   fotos.add(filesManage.writeAudio(server.getAudio(tema+".jpg"),
+                                           dir.getAbsolutePath(),tema+".jpg"));
                                 }
-
-
-
-                                filesManage.writeJson(fotos.toString(),
-                                        context.getApplicationContext().openFileOutput("fotosPath.txt", Context.MODE_PRIVATE));
-                                content.guardarPathFotos(fotos.toString());
 
                                 return jsonArray;
                                 }
@@ -113,6 +105,7 @@ public class MainActivity extends ModelActivity
 
                         if (result!=null)
                         {
+                   Log.e("esmus", "añadiendo cotenido");
 
                             content.putContenido(result);
 
@@ -127,6 +120,7 @@ public class MainActivity extends ModelActivity
 
 
                             ListView listView=(ListView)findViewById(R.id.listViewMain);
+
                             ListAdapter adapter=new ListAdapter(this.context.getApplicationContext(),tematicas,content.getPathFotos());
                             listView.setAdapter(adapter);
                             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
