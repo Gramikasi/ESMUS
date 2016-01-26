@@ -10,6 +10,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by Miren on 08/01/2016.
@@ -63,6 +64,7 @@ public class Bussines  {
 
         return  aux;
     }
+
 
 
 

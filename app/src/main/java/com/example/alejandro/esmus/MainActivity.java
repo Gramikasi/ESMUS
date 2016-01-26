@@ -65,6 +65,10 @@ public class MainActivity extends ModelActivity
                             Log.e("esmus","leyendo fichero json");
                           JSONArray jsonArray=  new JSONArray(filesManage.readJson
                                   (context.getApplicationContext().openFileInput("dataFile.json")));
+                            String pathFotos= filesManage.readJson
+                                    (context.getApplicationContext().openFileInput("fotosPath.txt"));
+                            Log.e("esmus","devolviendo pathFotos en la main"+pathFotos);
+                            content.guardarPathFotos(pathFotos.toString());
 
                             return jsonArray;
                         }else{
@@ -86,6 +90,12 @@ public class MainActivity extends ModelActivity
                                    fotos.add(dato);
                                 }
 
+
+
+                                filesManage.writeJson(fotos.toString(),
+                                        context.getApplicationContext().openFileOutput("fotosPath.txt", Context.MODE_PRIVATE));
+                                content.guardarPathFotos(fotos.toString());
+
                                 return jsonArray;
                                 }
                                 else{
@@ -101,7 +111,8 @@ public class MainActivity extends ModelActivity
 
                         if (result!=null)
                         {
-                            content.guardarPathFotos(fotos);
+
+                            Log.e("esmus", content.getPathFotos().toString());
                             Log.e("esmus", "añadiendo cotenido");
                             content.putContenido(result);
 

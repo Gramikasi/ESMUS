@@ -424,21 +424,22 @@ public  class Content {
     }
     private final static String EXTRA_PATH_FOTOS="com.example.alejandro.esmus.fotos";
 
-    public void guardarPathFotos(ArrayList<String> strings){
+    public void guardarPathFotos(String strings){
 
 
-        bundle.putString(EXTRA_PATH_FOTOS,strings.toString());
+        bundle.putString(EXTRA_PATH_FOTOS,strings);
     }
 
     public ArrayList <String> getPathFotos(){
 
         String fotos= bundle.getString(EXTRA_PATH_FOTOS);
+        Log.e("esmus","printando el path de fotos del bundle"+fotos);
         fotos=fotos.substring(1,fotos.length()-1);
         String [] array=  fotos.split(", ");
         ArrayList arrayList= new ArrayList();
         for (String item : array){
             arrayList.add(item);
-            Log.e("esmus",item);
+            Log.e("esmus","Estamos printando los items de fotos en getPathFotos"+item);
         }
 
         return arrayList;
