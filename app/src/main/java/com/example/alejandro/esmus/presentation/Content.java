@@ -29,7 +29,7 @@ public  class Content {
 
 
     public void putConsejoPost(int i){
-        bundle.putInt(EXTRA_CONSEJOS_POSICION,i);
+        bundle.putInt(EXTRA_CONSEJOS_POSICION, i);
 
     }
 
@@ -415,4 +415,29 @@ public  class Content {
             e.printStackTrace();
         }
     }
+    private final static String EXTRA_PATH_FOTOS="com.example.alejandro.esmus.fotos";
+
+    public void guardarPathFotos(ArrayList<String> strings){
+
+
+        bundle.putString(EXTRA_PATH_FOTOS,strings.toString());
+    }
+
+    public ArrayList <String> getPathFotos(){
+
+        String fotos= bundle.getString(EXTRA_PATH_FOTOS);
+        fotos=fotos.substring(1,fotos.length()-1);
+        String [] array=  fotos.split(", ");
+        ArrayList arrayList= new ArrayList();
+        for (String item : array){
+            arrayList.add(item);
+            Log.e("esmus",item);
+        }
+
+        return arrayList;
+
+
+    }
+
+
 }
