@@ -206,11 +206,13 @@ public  class Content {
 
             for (int i=0;i<jfrases.length(); i++) {
 
-              /*  String fraseOut=null;
+                String fraseOut=null;
                 String frasei=jfrases.getJSONObject(i).getString("fr");
-                if(frasei.length() > 40)
-                    fraseOut= frasei.substring(0,40) + "...";*/
-                frases.add(jfrases.getJSONObject(i).getString("fr"));
+                if(frasei.length() > 35)
+                    fraseOut= frasei.substring(0,35) + "...";
+                else
+                    fraseOut=frasei;
+                frases.add(fraseOut);
 
             }
 
