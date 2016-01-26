@@ -201,9 +201,13 @@ public  class Content {
             JSONArray contenido = new JSONArray(datos);
             JSONArray jfrases=contenido.getJSONObject(getExtraIndiceTematica()).getJSONArray("subtemas").getJSONObject(getExtraIndiceRegistro()).getJSONArray("frases");
             //JSONArray jfrases=registros.getJSONObject(registro).getJSONArray("frases");
-
+            String frase=null;
+            String fraseOut=null;
             for (int i=0;i<jfrases.length(); i++) {
-                frases.add(jfrases.getJSONObject(i).getString("fr"));
+                frase=jfrases.getJSONObject(i).getString("fr");
+                if(frase.length() > 40)
+                    fraseOut = frase.substring(0,40) + "...";
+                frases.add(fraseOut);
             }
 
 
@@ -345,8 +349,9 @@ public  class Content {
     public void putLast()
     {
         String last=bundle.getString(EXTRA_LAST,"[]");
-
+        Log.i("esmus","sacando bundle:"+last);
         try {
+            Log.i("esmus","preparando el borrado");
             JSONObject newJ=new JSONObject();
             newJ.put("tematica",getExtraIndiceTematica());
             newJ.put("registro",getExtraIndiceRegistro());
@@ -371,8 +376,10 @@ public  class Content {
                 }*/
             }
             else{
+
                 jsonLast.put(newJ);
             }
+            Log.i("esmus","Antes de hacer el put:"+jsonLast.toString() );
             bundle.putString(EXTRA_LAST,jsonLast.toString());
 
 
