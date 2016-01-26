@@ -388,7 +388,7 @@ public  class Content {
         String last=bundle.getString(EXTRA_LAST,"[]");
         String datos=bundle.getString(EXTRA_CONTENIDO);
         JSONArray jsonArray=new JSONArray(datos.toString());
-        ArrayList<String> stringLast=null;
+        ArrayList<String> stringLast=new ArrayList<String>();
         JSONArray jsonLast=new JSONArray(last);
         for(int i=0;i<jsonLast.length();i++)
         {
