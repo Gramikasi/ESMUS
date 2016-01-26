@@ -120,7 +120,10 @@ public class ShowPhraseActivity extends ModelActivity {
 
             }else{
                 path=content.getPath();
+                content.guardarPathDescarga(path);
                 Log.e("esmus","audio descargado de antes");
+                Log.e("esmus",path);
+
 
             }
 
@@ -219,8 +222,10 @@ public class ShowPhraseActivity extends ModelActivity {
     {
         if(audio.isPlaying()){
             audio.pause();
-            super.onBackPressed();
+
         }
+
+        super.onBackPressed();
 
     }
 

@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -16,13 +17,14 @@ import com.example.alejandro.esmus.vista.ListAdapter;
 import com.example.alejandro.esmus.vista.ProgressTask;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class AdvisesActivity extends ModelActivity {
 
-    final Toast aviso=Toast.makeText(this,"No tienes conexion a internet!",Toast.LENGTH_LONG);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class AdvisesActivity extends ModelActivity {
                 }
                 else {
 
-                    aviso.show();
+                    Toast.makeText(context.getApplicationContext(),"No tienes conexion a internet!",Toast.LENGTH_LONG).show();
                     return null;
                 }
 
@@ -50,14 +52,20 @@ public class AdvisesActivity extends ModelActivity {
 
                 if(result!=null){
 
-                    content.putConsejos(result);
+                    Log.e("esmus","Descargado consejos"+ result.toString());
+                    content.putExtraConsejos(result.toString());
 
                     TextView textView=(TextView)findViewById(R.id.phrase_consejo);
                     textView.setText("Lista De Consejos");
 
 
                     ListView listView=(ListView)findViewById(R.id.listViewAdvise);
-                    ArrayList<String> consejos=content.getBotonesConsejo();
+                    ArrayList<String> consejos= null;
+                    try {
+                        consejos = content.getBotonesConsejo();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                     ListAdapter adapter=new ListAdapter(context.getApplicationContext(),consejos);
                     listView.setAdapter(adapter);

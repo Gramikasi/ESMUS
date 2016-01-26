@@ -18,6 +18,8 @@ import android.widget.VideoView;
 import com.example.alejandro.esmus.vista.AudioPlayer;
 import com.example.alejandro.esmus.vista.ListAdapter;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 public class ShowAdviceActivity extends ModelActivity {
@@ -33,16 +35,28 @@ public class ShowAdviceActivity extends ModelActivity {
 
 
         ListView listView=(ListView)findViewById(R.id.listViewAdviseShow);
-        final ArrayList<String> consejos=content.content.getListaSubBotones();
+        final ArrayList<String> consejos;
 
-        ListAdapter adapter=new ListAdapter(this.getApplicationContext(),consejos);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showHtml(consejos.getUrl(position));
-            }
-        });
+
+        try {
+            consejos = content.getListaSubBotones();
+
+            ListAdapter adapter=new ListAdapter(this.getApplicationContext(),consejos);
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    try {
+                        showHtml(content.getURL(position));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
 
 

@@ -24,6 +24,71 @@ public  class Content {
     private final static String EXTRA_INDICE_REGISTRO="com.example.alejandro.esmus.indiRegistro";
     private final static String EXTRA_INDICE_FRASE="com.example.alejandro.esmus.indicefrase";
     private final static String EXTRA_LAST="com.example.alejandro.esmus.last";
+    private final static String EXTRA_CONSEJOS="com.example.alejandro.esmus.consejos";
+    private final static String EXTRA_CONSEJOS_POSICION="com.example.alejandro.esmus.consejo_posicion";
+
+
+    public void putConsejoPost(int i){
+        bundle.putInt(EXTRA_CONSEJOS_POSICION,i);
+
+    }
+
+
+    //guarda la lista de consejos
+    public void putExtraConsejos(String consejos){
+
+        bundle.putString(EXTRA_CONSEJOS,consejos);
+
+    }
+
+    public ArrayList<String> getListaSubBotones() throws JSONException {
+
+        ArrayList<String> salida=new ArrayList<>();
+        JSONArray jsonArray= new JSONArray(bundle.getString(EXTRA_CONSEJOS));
+
+        JSONObject jsonObject= jsonArray.getJSONObject(bundle.getInt(EXTRA_CONSEJOS_POSICION));
+        JSONArray subBotones= jsonObject.getJSONArray("subBotones");
+
+        for(int i=0; i<subBotones.length();i++){
+            salida.add(subBotones.getJSONObject(i).getString("nombre"));
+        }
+
+        return salida;
+
+    }
+
+    public String getURL(int position) throws JSONException {
+
+        String salida=null;
+        JSONArray jsonArray= new JSONArray(bundle.getString(EXTRA_CONSEJOS));
+        JSONObject jsonObject= jsonArray.getJSONObject(bundle.getInt(EXTRA_CONSEJOS_POSICION));
+        JSONArray subBotones= jsonObject.getJSONArray("subBotones");
+
+        salida=subBotones.getJSONObject(position).getString("url");
+
+
+        return salida;
+
+    }
+
+    //devuelve los titulos de los botones de la pagina principal de consejos
+    public ArrayList<String> getBotonesConsejo() throws JSONException {
+
+        ArrayList<String> salida=new ArrayList<>();
+        JSONArray jsonArray= new JSONArray(bundle.get(EXTRA_CONSEJOS).toString());
+        Log.e("esmus",jsonArray.toString()+ "Estamos en getBotonesConsejo");
+
+
+        for(int i=0; i<jsonArray.length();i++){
+
+            String string= jsonArray.getJSONObject(i).getString("tituloBoton");
+            salida.add(string );
+            Log.e("esmus", string);
+
+        }
+
+        return salida;
+    }
 
 
     public void putExtraIndiceFrase(int i){

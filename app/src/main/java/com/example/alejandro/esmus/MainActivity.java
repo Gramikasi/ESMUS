@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.json.JSONArray;
+
+import java.io.File;
 import java.util.ArrayList;
 
 import com.example.alejandro.esmus.model.Network;
@@ -30,6 +33,7 @@ import com.example.alejandro.esmus.vista.ProgressTask;
 public class MainActivity extends ModelActivity
         implements NavigationView.OnNavigationItemSelectedListener {
         ArrayList<String> login=new ArrayList<>();
+        final ArrayList <String> fotos=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +75,15 @@ public class MainActivity extends ModelActivity
                                         context.getApplicationContext().openFileOutput("dataFile.json", Context.MODE_PRIVATE));
                                 Log.i("esmus", "Antes de hacer el set" + pref.isDownload().toString());
                                 pref.setDownload();
+                                content.putContenido(jsonArray);
+                                ArrayList<String> arrayList= content.getTematicas();
+                                File dir = new File(Environment.getExternalStorageDirectory() + "/ESMUS/");
+                                for(String tema: arrayList){
+
+
+                                   fotos.add(filesManage.writeAudio(server.getAudio(tema+".jpg"),
+                                           dir.getAbsolutePath(),tema+".jpg"));
+                                }
 
                                 return jsonArray;
                                 }
@@ -96,10 +109,10 @@ public class MainActivity extends ModelActivity
                             textView.setText("Hola " + login.get(0) + " " + login.get(1) + " has venido a " + login.get(2) + " de visita!Quizas podria ayudarte a comunicarte en alguno de estos sitios!");
 
                             ArrayList<String> tematicas=content.getTematicas();
-                            //Toast.makeText(context.getApplicationContext(),tematicas.toString(),Toast.LENGTH_SHORT).show();
+
 
                             ListView listView=(ListView)findViewById(R.id.listViewMain);
-                            ListAdapter adapter=new ListAdapter(this.context.getApplicationContext(),tematicas);
+                            ListAdapter adapter=new ListAdapter(this.context.getApplicationContext(),tematicas,fotos);
                             listView.setAdapter(adapter);
                             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
@@ -108,46 +121,7 @@ public class MainActivity extends ModelActivity
                                     startModelActivity(RegisterActivivty.class);
                                 }
                             });
-                            //final ArrayList mLista = new ArrayList();
-                            //final ArrayAdapter mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mLista);
-                            //list.setAdapter(mAdapter);
 
-
-
-
-
-
-
-
-                            /*final View.OnClickListener listener= new View.OnClickListener(){
-                                @Override
-                                public void onClick(View v) {
-                                    int i= (int) v.getTag();
-                                    content.putExtraIndiceTematica(i);
-                                    startModelActivity(RegisterActivivty.class);
-
-                                }
-                            };
-                            LinearLayout list=(LinearLayout)findViewById(R.id.linearListview);
-                            int i=0;
-                            for (String tema : tematicas)
-                            {
-
-                                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                                        LinearLayout.LayoutParams.MATCH_PARENT,
-                                        LinearLayout.LayoutParams.WRAP_CONTENT);
-
-                                Button button=new Button(context.getApplicationContext());
-
-                                button.setText(tema);
-                                button.setTag(i);
-                                button.setOnClickListener(listener);
-                                button.setLayoutParams(params);
-                                list.addView(button);
-
-                                //  mLista.add(button);
-
-                            }*/
 
                             Log.i("esmus", "Despues de hacer el set" + pref.isDownload().toString());
                         }else
@@ -163,16 +137,6 @@ public class MainActivity extends ModelActivity
                 }.execute();
 
 
-               // Toast.makeText(this,content.getTematicas().toString(),Toast.LENGTH_SHORT).show();
-
-               /* try {
-                    content.putContenido(server.getJson("prueba"));
-                    Log.i("esmus", content.getTematicas().toString());
-                    Toast.makeText(this,content.getTematicas().toString(),Toast.LENGTH_SHORT).show();
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();}*/
 
         }else
         {
@@ -233,7 +197,7 @@ public class MainActivity extends ModelActivity
             showHtml("https://translate.google.es/?hl=es");
         }else if(id== R.id.nav_consejos){
 
-            startModelActivity(ShowAdviceActivity.class);
+            startModelActivity(AdvisesActivity.class);
 
         }
 

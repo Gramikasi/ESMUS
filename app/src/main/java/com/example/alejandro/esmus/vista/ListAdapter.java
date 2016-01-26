@@ -1,6 +1,7 @@
 package com.example.alejandro.esmus.vista;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,24 @@ import java.util.ArrayList;
 public class ListAdapter extends ArrayAdapter<ArrayList<String>> {
 
     private ArrayList<String> data=null;
+    private ArrayList<String> fotos=null;
+    boolean imagenes=false;
+
+    public ListAdapter(Context context, ArrayList datos,ArrayList<String> strings) {
+        super(context, R.layout.list_item, datos);
+        data=datos;
+        this.fotos=strings;
+        imagenes=true;
+    }
+
+
 
     public ListAdapter(Context context, ArrayList datos) {
         super(context, R.layout.list_item, datos);
         data=datos;
-    }
+        imagenes=false;
 
+    }
 
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -34,9 +47,13 @@ public class ListAdapter extends ArrayAdapter<ArrayList<String>> {
 
         TextView lblTitulo = (TextView)item.findViewById(R.id.textView2);
         lblTitulo.setText(data.get(position).toString());
-        /*int id=
-        ImageView image = (ImageView)item.findViewById(R.id.imageView2);
-        image.setImageResource();*/
+
+        if(imagenes) {
+            ImageView image = (ImageView) item.findViewById(R.id.imageView2);
+
+            Uri uri = Uri.parse(fotos.get(position));
+            image.setImageURI(uri);
+        }
 
         return(item);
     }
