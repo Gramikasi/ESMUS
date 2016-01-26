@@ -4,11 +4,14 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.alejandro.esmus.connection.RestClient;
+import com.example.alejandro.esmus.model.FilesManage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -23,7 +26,6 @@ public  class Content {
     private final static String EXTRA_INDICE_TEMATICA="com.example.alejandro.esmus.indicetematica";
     private final static String EXTRA_INDICE_REGISTRO="com.example.alejandro.esmus.indiRegistro";
     private final static String EXTRA_INDICE_FRASE="com.example.alejandro.esmus.indicefrase";
-    private final static String EXTRA_LAST="com.example.alejandro.esmus.last";
     private final static String EXTRA_CONSEJOS="com.example.alejandro.esmus.consejos";
     private final static String EXTRA_CONSEJOS_POSICION="com.example.alejandro.esmus.consejo_posicion";
 
@@ -37,7 +39,7 @@ public  class Content {
     //guarda la lista de consejos
     public void putExtraConsejos(String consejos){
 
-        bundle.putString(EXTRA_CONSEJOS,consejos);
+        bundle.putString(EXTRA_CONSEJOS, consejos);
 
     }
 
@@ -206,7 +208,7 @@ public  class Content {
 
             for (int i=0;i<jfrases.length(); i++) {
 
-                String fraseOut=null;
+                String fraseOut;
                 String frasei=jfrases.getJSONObject(i).getString("fr");
                 if(frasei.length() > 35)
                     fraseOut= frasei.substring(0,35) + "...";
@@ -348,42 +350,52 @@ public  class Content {
         }
 
     }
-    public void putLast()
+    public void putLast(OutputStream outputStream,InputStream inputStream,Boolean prefLast)
     {
-        String last=bundle.getString(EXTRA_LAST,"[]");
-        Log.i("esmus","sacando bundle:"+last);
+        String last;
+        if(prefLast)
+        {
+            FilesManage filesManage=new FilesManage();
+            last=filesManage.readJson(inputStream);
+            Log.i("esmus","Last:"+last+";prefLast:"+prefLast.toString());
+
+        }
+        else
+        {
+
+            last="[]";
+            Log.i("esmus","Last:"+last+";prefLast:"+prefLast.toString());
+        }
+
+
+
         try {
-            Log.i("esmus","preparando el borrado");
+
             JSONObject newJ=new JSONObject();
             newJ.put("tematica",getExtraIndiceTematica());
-            newJ.put("registro",getExtraIndiceRegistro());
+            newJ.put("registro", getExtraIndiceRegistro());
             newJ.put("frase", getExtraIndiceFrase());
-            Log.i("esmus", "Antes del borrado: " + last);
+
 
             JSONArray jsonLast=new JSONArray(last);
-            Log.i("esmus", "Antes del borrado: " + jsonLast.length());
+            Log.i("esmus","Last json:"+jsonLast.toString());
             if(jsonLast.length()>10)
             {
-                //TODO: hacer shift de consultas
                     jsonLast.remove(0);
-                Log.i("esmus", "Despues del borrado: " + jsonLast.toString());
-                Log.i("esmus", "despues del borrado: " + jsonLast.length());
+
                     jsonLast.put(newJ);
-                Log.i("esmus", "Despues de añadir: " + jsonLast.toString());
-                Log.i("esmus", "despues de añadir: " + jsonLast.length());
 
-                /*for(int i=1;i<10;i++)
-                {
-
-                }*/
             }
             else{
 
                 jsonLast.put(newJ);
-            }
-            Log.i("esmus","Antes de hacer el put:"+jsonLast.toString() );
-            bundle.putString(EXTRA_LAST,jsonLast.toString());
 
+
+            }
+            Log.i("esmus", "Antes de hacer el put:" + jsonLast.toString());
+
+            FilesManage filesManage = new FilesManage();
+            filesManage.writeJson(jsonLast.toString(), outputStream);
 
 
         } catch (JSONException e) {
@@ -393,12 +405,17 @@ public  class Content {
 
 
     }
-    public ArrayList<String> getLast() throws JSONException{
-        String last=bundle.getString(EXTRA_LAST,"[]");
+    public ArrayList<String> getLast(InputStream inputStream) throws JSONException{
+
+        FilesManage filesManage=new FilesManage();
+        String last=filesManage.readJson(inputStream);
+        Log.i("esmus","En getLast leyendo de fichero:"+last);
         String datos=bundle.getString(EXTRA_CONTENIDO);
         JSONArray jsonArray=new JSONArray(datos.toString());
+//TODO:Arreglar este pedazo de mierdo
         ArrayList<String> stringLast=new ArrayList<String>();
         JSONArray jsonLast=new JSONArray(last);
+        Log.i("esmus","En getLast leyendo de fichero:"+jsonLast.toString());
         for(int i=0;i<jsonLast.length();i++)
         {
             stringLast.add(jsonArray.getJSONObject(jsonLast.getJSONObject(i).getInt("tematica")).
@@ -411,14 +428,14 @@ public  class Content {
     }
 
 
-    public void putIndices(int position)
+    public void putIndices(String last)
     {
-        String last=bundle.getString(EXTRA_LAST,"[]");
+
         try {
-            JSONArray jsonLast=new JSONArray(last);
-            putExtraIndiceTematica(jsonLast.getJSONObject(position).getInt("tematica"));
-            putExtraIndiceRegistro(jsonLast.getJSONObject(position).getInt("registro"));
-            putExtraIndiceFrase(jsonLast.getJSONObject(position).getInt("frase"));
+            JSONObject jsonLast=new JSONObject(last);
+            putExtraIndiceTematica(jsonLast.getInt("tematica"));
+            putExtraIndiceRegistro(jsonLast.getInt("registro"));
+            putExtraIndiceFrase(jsonLast.getInt("frase"));
 
         } catch (JSONException e) {
             e.printStackTrace();

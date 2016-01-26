@@ -1,19 +1,23 @@
 package com.example.alejandro.esmus;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.alejandro.esmus.vista.ListAdapter;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class PhrasesActivity extends ModelActivity {
@@ -45,7 +49,15 @@ public class PhrasesActivity extends ModelActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 content.putExtraIndiceFrase(position);
-                content.putLast();
+
+                try {
+                    content.putLast(getApplicationContext().openFileOutput("lastPhrases.json", Context.MODE_PRIVATE),getApplicationContext().openFileInput("lastPhrases.json"),pref.getLast());
+                    pref.setLast();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Log.i("esmus","no se pudo leer el fichero");
+                }
+
                 startModelActivity(ShowPhraseActivity.class);
                 finish();
             }

@@ -46,6 +46,7 @@ public class FilesManage
                 try
                 {
                         OutputStreamWriter fout= new OutputStreamWriter(outputStream);
+                        Log.i("esmus","Last json en writeJson:"+jsonArray.toString());
                         fout.write(jsonArray);
                         fout.close();
                         result=true;

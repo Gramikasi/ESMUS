@@ -41,8 +41,6 @@ public class ShowPhraseActivity extends ModelActivity {
     private LinearLayout layout;
     private String path;
     private static final int  AUDIO_REQUEST_CODE = 1;
-    private Uri uri;
-    String nombreF;
     private boolean creadoAudio=false;
     private AudioPlayer audio=null;
 
@@ -237,7 +235,6 @@ public class ShowPhraseActivity extends ModelActivity {
 
         try {
             content.putContenido(new JSONArray(content.getContenido()));
-            startModelActivity(MainActivity.class);
         } catch (JSONException e) {
             e.printStackTrace();
         }

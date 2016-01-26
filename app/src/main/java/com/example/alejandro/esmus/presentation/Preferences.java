@@ -19,6 +19,8 @@ public class Preferences {
     public final static String EXTRA_LOGIN_S="eus.ehu.intel.tta.esmus.login_surname";
     public final static String EXTRA_COUNTRY="eus.ehu.intel.tta.esmus.country";
     public final static String EXTRA_FILEDOWNLOAD="eus.ehu.intel.tta.esmus.isDownload";
+    public final static String EXTRA_LAST="eus.ehu.intel.tta.esmus.last";
+
     SharedPreferences pref;
 
     public Preferences(Context context) {
@@ -67,9 +69,20 @@ public class Preferences {
     public void cambiarNombre(String login){
 
         SharedPreferences.Editor editor=pref.edit();
-        editor.putString(EXTRA_LOGIN_N,login);
+        editor.putString(EXTRA_LOGIN_N, login);
         editor.commit();
 
+    }
+
+    public void setLast()
+    {
+        SharedPreferences.Editor editor=pref.edit();
+        editor.putBoolean(EXTRA_LAST, true);
+        editor.commit();
+    }
+    public Boolean getLast()
+    {
+        return pref.getBoolean(EXTRA_LAST,false);
     }
 
     public void cambiarApellido(String apellido){

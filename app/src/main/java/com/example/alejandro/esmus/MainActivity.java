@@ -23,6 +23,7 @@ import android.widget.Toast;
 import org.json.JSONArray;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import com.example.alejandro.esmus.model.Network;
@@ -51,6 +52,8 @@ public class MainActivity extends ModelActivity
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
             final Toast aviso=Toast.makeText(this,"No tienes conexion a internet!",Toast.LENGTH_LONG);
+
+
 
         if (login.get(0)!=null)
         {
@@ -132,6 +135,7 @@ public class MainActivity extends ModelActivity
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     content.putExtraIndiceTematica(position);
                                     startModelActivity(RegisterActivivty.class);
+
                                 }
                             });
 

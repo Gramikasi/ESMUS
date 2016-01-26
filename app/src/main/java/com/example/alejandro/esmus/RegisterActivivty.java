@@ -16,6 +16,9 @@ import android.widget.Toast;
 import com.example.alejandro.esmus.vista.AudioPlayer;
 import com.example.alejandro.esmus.vista.ListAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -58,6 +61,7 @@ public class RegisterActivivty extends ModelActivity {
         });
 
     }
+
 
 
 

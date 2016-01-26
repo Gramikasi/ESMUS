@@ -15,6 +15,8 @@ import com.example.alejandro.esmus.vista.ListAdapter;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class LastPhrases extends ModelActivity {
@@ -27,29 +29,40 @@ public class LastPhrases extends ModelActivity {
         setSupportActionBar(toolbar);
 
         ArrayList<String> last=null;
+        if (pref.getLast()) {
+            try {
+
+                last = content.getLast(this.getApplicationContext().openFileInput("lastPhrases.json"));
+                final JSONArray jsonArray = new JSONArray(last);
+
+                ListView listView = (ListView) findViewById(R.id.listViewLast);
+                //final ArrayList mLista = new ArrayList();
+                //final ArrayAdapter mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mLista);
+                //list.setAdapter(mAdapter);
+
+                ListAdapter adapter = new ListAdapter(this.getApplicationContext(), last);
+                listView.setAdapter(adapter);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        try {
+                            content.putIndices(jsonArray.getJSONObject(position).toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        startModelActivity(ShowPhraseActivity.class);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 
-        try {
-            last = content.getLast();
-        } catch (JSONException e) {
-            e.printStackTrace();
+        }else
+        {
+            Toast.makeText(this,"No existe ninguna consulta",Toast.LENGTH_LONG).show();
         }
 
-
-        ListView listView=(ListView)findViewById(R.id.listViewLast);
-        //final ArrayList mLista = new ArrayList();
-        //final ArrayAdapter mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mLista);
-        //list.setAdapter(mAdapter);
-
-        ListAdapter adapter=new ListAdapter(this.getApplicationContext(),last);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                content.putIndices(position);
-                startModelActivity(ShowPhraseActivity.class);
-            }
-        });
     }
 
 }
