@@ -33,7 +33,7 @@ import com.example.alejandro.esmus.vista.ProgressTask;
 public class MainActivity extends ModelActivity
         implements NavigationView.OnNavigationItemSelectedListener {
         ArrayList<String> login=new ArrayList<>();
-        final ArrayList <String> fotos=null;
+        final ArrayList <String> fotos=new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,8 +81,9 @@ public class MainActivity extends ModelActivity
                                 for(String tema: arrayList){
 
 
-                                   fotos.add(filesManage.writeAudio(server.getAudio(tema+".jpg"),
-                                           dir.getAbsolutePath(),tema+".jpg"));
+                                    String dato=filesManage.writeAudio(server.getAudio(tema.replaceAll(" ","")+ ".jpg"),
+                                            dir.getAbsolutePath(), tema.replaceAll(" ","") + ".jpg");
+                                   fotos.add(dato);
                                 }
 
                                 return jsonArray;
