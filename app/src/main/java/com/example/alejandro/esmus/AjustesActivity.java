@@ -56,6 +56,8 @@ public class AjustesActivity extends ModelActivity {
         BorradoRecursivo(dir);
         this.getApplicationContext().getFilesDir().delete();
               pref.offDowload();
+             pref.offLast();
+
         Toast.makeText(this,"Introduce tus nuevos datos",Toast.LENGTH_LONG).show();
         startModelActivity(LoginActivity.class);
 

@@ -1,6 +1,7 @@
 package com.example.alejandro.esmus;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import com.example.alejandro.esmus.vista.ListAdapter;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,10 +31,11 @@ public class LastPhrases extends ModelActivity {
         setSupportActionBar(toolbar);
 
         ArrayList<String> last=null;
+
         if (pref.getLast()) {
             try {
 
-                last = content.getLast(this.getApplicationContext().openFileInput("lastPhrases.json"));
+                last = content.getLast(dirLast);
                 final JSONArray jsonArray = new JSONArray(last);
 
                 ListView listView = (ListView) findViewById(R.id.listViewLast);

@@ -10,6 +10,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
@@ -318,15 +323,98 @@ public  class Content {
         return tematicas;
     }
 
+    public void putLast(File file)throws IOException
+    {
+        String last=null;
+        Log.e("esmus", "LONGITUD DEL FICHERO"+  file.length());
+
+     if(file.length()!=0){
+         FileInputStream fileInputStream= new FileInputStream(file);
+         FilesManage filesManage=new FilesManage();
+         last=filesManage.readJson(fileInputStream);
+     }
+
+        if(last==null) {
+            last = "[]";
+            Log.i("esmus","EJECUTANDO EL LAST XK EL READJSON DEVUELVE NULL");
+        }
+
+
+        try {
+
+            JSONObject newJ=new JSONObject();
+            newJ.put("tematica",getExtraIndiceTematica());
+            newJ.put("registro", getExtraIndiceRegistro());
+            newJ.put("frase", getExtraIndiceFrase());
+
+
+            JSONArray jsonLast=new JSONArray(last);
+            Log.i("esmus", "Last json:" + jsonLast.toString());
+            if(jsonLast.length()>10)
+            {
+                jsonLast.remove(0);
+
+                jsonLast.put(newJ);
+
+            }
+            else{
+
+                jsonLast.put(newJ);
+
+
+            }
+            Log.i("esmus", "Antes de hacer el put:" + jsonLast.toString());
+
+
+            FileOutputStream fileOutputStream= new FileOutputStream(file);
+            FilesManage filesManage=new FilesManage();
+            filesManage.writeJson(jsonLast.toString(), fileOutputStream);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+    }
+
+
+    public ArrayList<String> getLast(File file) throws JSONException, FileNotFoundException {
+
+        FileInputStream fileInputStream=new FileInputStream(file);
+
+        FilesManage filesManage=new FilesManage();
+        String last=filesManage.readJson(fileInputStream);
+        Log.i("esmus", "En getLast leyendo de fichero:" + last + "path" + file.getAbsolutePath());
+        String datos=bundle.getString(EXTRA_CONTENIDO);
+        JSONArray jsonArray=new JSONArray(datos.toString());
+        ArrayList<String> stringLast=new ArrayList<String>();
+        JSONArray jsonLast=new JSONArray(last);
+        Log.i("esmus","En getLast leyendo de fichero:"+jsonLast.toString());
+        for(int i=0;i<jsonLast.length();i++)
+        {
+            stringLast.add(jsonArray.getJSONObject(jsonLast.getJSONObject(i).getInt("tematica")).
+                    getJSONArray("subtemas").getJSONObject(jsonLast.getJSONObject(i).getInt("registro")).
+                    getJSONArray("frases").getJSONObject(jsonLast.getJSONObject(i).getInt("frase")).getString("fr"));
+        }
+
+
+
+        return stringLast;
+    }
+
+
     public void guardarPathDescarga(String path){
 
         try {
-            Log.i("esmus","guardando path de descarga:"+path);
+            Log.i("esmus", "guardando path de descarga:" + path);
             JSONArray jsonArray= new JSONArray(bundle.getString(EXTRA_CONTENIDO));
 
             jsonArray.getJSONObject(
                     getExtraIndiceTematica()).getJSONArray("subtemas").
-                    getJSONObject(getExtraIndiceRegistro()).getJSONArray("frases").getJSONObject(getExtraIndiceFrase()).put("path",path);
+                    getJSONObject(getExtraIndiceRegistro()).getJSONArray("frases").getJSONObject(getExtraIndiceFrase()).put("path", path);
             putContenido(jsonArray);
 
         } catch (JSONException e) {
@@ -350,83 +438,6 @@ public  class Content {
         }
 
     }
-    public void putLast(OutputStream outputStream,InputStream inputStream,Boolean prefLast)
-    {
-        String last;
-        if(prefLast)
-        {
-            FilesManage filesManage=new FilesManage();
-            last=filesManage.readJson(inputStream);
-            Log.i("esmus","Last:"+last+";prefLast:"+prefLast.toString());
-
-        }
-        else
-        {
-
-            last="[]";
-            Log.i("esmus","Last:"+last+";prefLast:"+prefLast.toString());
-        }
-
-
-
-        try {
-
-            JSONObject newJ=new JSONObject();
-            newJ.put("tematica",getExtraIndiceTematica());
-            newJ.put("registro", getExtraIndiceRegistro());
-            newJ.put("frase", getExtraIndiceFrase());
-
-
-            JSONArray jsonLast=new JSONArray(last);
-            Log.i("esmus","Last json:"+jsonLast.toString());
-            if(jsonLast.length()>10)
-            {
-                    jsonLast.remove(0);
-
-                    jsonLast.put(newJ);
-
-            }
-            else{
-
-                jsonLast.put(newJ);
-
-
-            }
-            Log.i("esmus", "Antes de hacer el put:" + jsonLast.toString());
-
-            FilesManage filesManage = new FilesManage();
-            filesManage.writeJson(jsonLast.toString(), outputStream);
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-
-    }
-    public ArrayList<String> getLast(InputStream inputStream) throws JSONException{
-
-        FilesManage filesManage=new FilesManage();
-        String last=filesManage.readJson(inputStream);
-        Log.i("esmus","En getLast leyendo de fichero:"+last);
-        String datos=bundle.getString(EXTRA_CONTENIDO);
-        JSONArray jsonArray=new JSONArray(datos.toString());
-//TODO:Arreglar este pedazo de mierdo
-        ArrayList<String> stringLast=new ArrayList<String>();
-        JSONArray jsonLast=new JSONArray(last);
-        Log.i("esmus","En getLast leyendo de fichero:"+jsonLast.toString());
-        for(int i=0;i<jsonLast.length();i++)
-        {
-            stringLast.add(jsonArray.getJSONObject(jsonLast.getJSONObject(i).getInt("tematica")).
-                    getJSONArray("subtemas").getJSONObject(jsonLast.getJSONObject(i).getInt("registro")).
-                    getJSONArray("frases").getJSONObject(jsonLast.getJSONObject(i).getInt("frase")).getString("fr"));
-        }
-
-
-        return stringLast;
-    }
-
 
     public void putIndices(String last)
     {
@@ -453,7 +464,7 @@ public  class Content {
     public ArrayList <String> getPathFotos(){
 
         String fotos= bundle.getString(EXTRA_PATH_FOTOS);
-        Log.e("esmus","printando el path de fotos del bundle"+bundle.getString(EXTRA_PATH_FOTOS));
+        Log.e("esmus", "printando el path de fotos del bundle" + bundle.getString(EXTRA_PATH_FOTOS));
         fotos=fotos.substring(1,fotos.length()-1);
         String [] array=  fotos.split(", ");
         ArrayList arrayList= new ArrayList();
@@ -466,6 +477,11 @@ public  class Content {
 
 
     }
+
+
+
+
+
 
 
 }

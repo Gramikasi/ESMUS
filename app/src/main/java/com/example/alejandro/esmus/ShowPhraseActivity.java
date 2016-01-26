@@ -131,7 +131,7 @@ public class ShowPhraseActivity extends ModelActivity {
         try {
             showAudio(path);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -235,7 +235,7 @@ public class ShowPhraseActivity extends ModelActivity {
 
         try {
             content.putContenido(new JSONArray(content.getContenido()));
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

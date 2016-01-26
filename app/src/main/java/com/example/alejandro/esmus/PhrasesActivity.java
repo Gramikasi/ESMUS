@@ -2,6 +2,7 @@ package com.example.alejandro.esmus;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +18,9 @@ import android.widget.Toast;
 
 import com.example.alejandro.esmus.vista.ListAdapter;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class PhrasesActivity extends ModelActivity {
@@ -30,6 +33,8 @@ public class PhrasesActivity extends ModelActivity {
         setSupportActionBar(toolbar);
         ArrayList<String> login = new ArrayList<>();
         login = pref.readPref();
+
+
 
 
         TextView textView = (TextView) findViewById(R.id.welcome_message_phrases);
@@ -50,16 +55,16 @@ public class PhrasesActivity extends ModelActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 content.putExtraIndiceFrase(position);
 
-                try {
-                    content.putLast(getApplicationContext().openFileOutput("lastPhrases.json", Context.MODE_PRIVATE),getApplicationContext().openFileInput("lastPhrases.json"),pref.getLast());
-                    pref.setLast();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Log.i("esmus","no se pudo leer el fichero");
-                }
 
+                try {
+                    content.putLast(dirLast);
+                    pref.setLast();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 startModelActivity(ShowPhraseActivity.class);
-                finish();
+               // finish();
             }
         });
     }

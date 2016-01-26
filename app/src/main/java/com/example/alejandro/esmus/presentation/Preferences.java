@@ -80,6 +80,13 @@ public class Preferences {
         editor.putBoolean(EXTRA_LAST, true);
         editor.commit();
     }
+
+    public void offLast(){
+
+        SharedPreferences.Editor editor=pref.edit();
+        editor.putBoolean(EXTRA_LAST, false);
+        editor.commit();
+    }
     public Boolean getLast()
     {
         return pref.getBoolean(EXTRA_LAST,false);

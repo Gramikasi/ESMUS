@@ -26,6 +26,7 @@ public abstract class ModelActivity extends AppCompatActivity {
     protected Content content;
     protected RestClient restClient;
     protected FilesManage filesManage;
+    File dirLast ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public abstract class ModelActivity extends AppCompatActivity {
         content = new Content(getIntent().getExtras());
         filesManage = new FilesManage();
 
+
         //directorio propia de la app en memoria externa
 
         File dir = new File(Environment.getExternalStorageDirectory() + "/ESMUS/");
@@ -45,6 +47,7 @@ public abstract class ModelActivity extends AppCompatActivity {
             Log.e("esmus", "directorio esmus creado para memoria externa");
             dir.mkdir();
         }
+        dirLast= new File(Environment.getExternalStorageDirectory() + "/ESMUS/lastPhrases.json");
     }
 
     protected <T> void startModelActivity(Class<T> cls){
