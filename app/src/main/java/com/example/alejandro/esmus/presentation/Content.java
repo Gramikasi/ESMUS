@@ -432,12 +432,13 @@ public  class Content {
 
 
         bundle.putString(EXTRA_PATH_FOTOS,strings);
+        Log.i("esmus","bundle fotos guardado"+bundle.getString(EXTRA_PATH_FOTOS));
     }
 
     public ArrayList <String> getPathFotos(){
 
         String fotos= bundle.getString(EXTRA_PATH_FOTOS);
-        Log.e("esmus","printando el path de fotos del bundle"+fotos);
+        Log.e("esmus","printando el path de fotos del bundle"+bundle.getString(EXTRA_PATH_FOTOS));
         fotos=fotos.substring(1,fotos.length()-1);
         String [] array=  fotos.split(", ");
         ArrayList arrayList= new ArrayList();

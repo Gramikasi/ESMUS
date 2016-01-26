@@ -33,7 +33,7 @@ import com.example.alejandro.esmus.vista.ProgressTask;
 public class MainActivity extends ModelActivity
         implements NavigationView.OnNavigationItemSelectedListener {
         ArrayList<String> login=new ArrayList<>();
-        final ArrayList <String> fotos=null;
+        final ArrayList <String> fotos=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,31 +65,36 @@ public class MainActivity extends ModelActivity
                             Log.e("esmus","leyendo fichero json");
                           JSONArray jsonArray=  new JSONArray(filesManage.readJson
                                   (context.getApplicationContext().openFileInput("dataFile.json")));
-              String pathFotos= filesManage.readJson
-                                    (context.getApplicationContext().openFileInput("fotosPath.txt"));
+
+                            String pathFotos= filesManage.readJson(context.getApplicationContext().openFileInput("fotosPath.txt"));
+                            Log.e("esmus","leyendo el fichero de las fotos"+" "+ pathFotos);
 
                             content.guardarPathFotos(pathFotos.toString());
                             content.putContenido(jsonArray);
+
 
                             return jsonArray;
                         }else{
                             if(Network.isConnected(context)) {
                                 Log.e("esmus", "descargando el json");
                                 JSONArray jsonArray = server.getJson("dataFile.json");
-                                Log.e("esmus","JSONDESCARGADO MAIN"+jsonArray.toString());
+                                //Log.e("esmus","JSONDESCARGADO MAIN"+jsonArray.toString());
                                 filesManage.writeJson(jsonArray.toString(),
                                         context.getApplicationContext().openFileOutput("dataFile.json", Context.MODE_PRIVATE));
                                 pref.setDownload();
                                 content.putContenido(jsonArray);
+
                                 ArrayList<String> arrayList= content.getTematicas();
                                 File dir = new File(Environment.getExternalStorageDirectory() + "/ESMUS/");
                                 for(String tema: arrayList){
-
-
-                                   fotos.add(filesManage.writeAudio(server.getAudio(tema+".jpg"),
-                                           dir.getAbsolutePath(),tema+".jpg"));
+                                   fotos.add(filesManage.writeAudio(server.getAudio(tema.replace(" ","")+".jpg"),
+                                           dir.getAbsolutePath(),tema.replace(" ","")+".jpg"));
                                 }
 
+                                Log.e("esmus","path descargados"+ fotos.toString());
+                                filesManage.writeJson(fotos.toString(),context.getApplicationContext().
+                                        openFileOutput("fotosPath.txt", Context.MODE_PRIVATE));
+                                content.guardarPathFotos(fotos.toString());
                                 return jsonArray;
                                 }
                                 else{
@@ -108,12 +113,11 @@ public class MainActivity extends ModelActivity
                    Log.e("esmus", "añadiendo cotenido");
 
                             content.putContenido(result);
-
-
-
                             TextView textView=(TextView)findViewById(R.id.welcome_message_main);
 
-                          textView.setText("Hola " + login.get(0) + " " + login.get(1) + " has venido a " + login.get(2) + " de visita!Quizas podria ayudarte a comunicarte en alguno de estos sitios!");
+                          textView.setText("Hola " + login.get(0) + " "
+                                  + login.get(1) + " has venido a " +
+                                  login.get(2) + " de visita!Quizas podria ayudarte a comunicarte en alguno de estos sitios!");
 
                             //textView.setText(content.getContenido());
                             ArrayList<String> tematicas=content.getTematicas();

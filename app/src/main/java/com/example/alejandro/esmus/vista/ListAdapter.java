@@ -29,7 +29,7 @@ public class ListAdapter extends ArrayAdapter<ArrayList<String>> {
         super(context, R.layout.list_item, datos);
         this.data=datos;
         this.fotos=strings;
-        imagenes=true;
+        this.imagenes=true;
       
     }
 
