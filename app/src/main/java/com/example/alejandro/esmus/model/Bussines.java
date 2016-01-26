@@ -33,7 +33,7 @@ public class Bussines  {
         JSONArray contenido=new JSONArray();
         try {
 
-            contenido= new JSONArray(rest.getJson("dataFile.json").toString());
+            contenido= new JSONArray(rest.getJson(relativePath).toString());
 
 
         } catch (JSONException e) {
