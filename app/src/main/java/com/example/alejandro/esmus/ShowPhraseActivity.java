@@ -85,9 +85,9 @@ public class ShowPhraseActivity extends ModelActivity {
                 +String.valueOf(content.getExtraIndiceRegistro())
                 +String.valueOf(content.getExtraIndiceFrase())+".aac";
 
-        try {
 
-            if(!server.isExist(content.getPath(),string) ){
+
+            if(!server.isExist(string) ){
 
                 new ProgressTask<String>(this){
 
@@ -99,7 +99,8 @@ public class ShowPhraseActivity extends ModelActivity {
                         path= filesManage.writeAudio(server.getAudio(nombreF),
                                 dir.getAbsolutePath(),nombreF);
 
-                        Log.i("esmus",nombreF);
+                        Log.i("esmus", nombreF);
+
 
                         return path;
                     }
@@ -107,30 +108,24 @@ public class ShowPhraseActivity extends ModelActivity {
                     @Override
                     protected void onFinish(String  result) {
 
-                        try {
+                        //content.guardarPathDescarga(path);
 
-                            content.guardarPathDescarga(path);
-                            filesManage.writeJson(content.getContenido(),
-                                    context.getApplicationContext().openFileOutput("dataFile.json", Context.MODE_PRIVATE));
 
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                         //   filesManage.writeJson(content.getContenido(),
+                               //     context.getApplicationContext().openFileOutput("dataFile.json", Context.MODE_PRIVATE));
+
+
                     }
                 }.execute();
 
             }else{
-                path=content.getPath();
-                content.guardarPathDescarga(path);
-                Log.e("esmus","audio descargado de antes");
-                Log.e("esmus",path);
+                path=string;
+                Log.e("esmus","Adio descargado de antes este es el path: "+path);
 
 
             }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public void escucharAudio( View view){
@@ -216,6 +211,12 @@ public class ShowPhraseActivity extends ModelActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_home:
+
+                if(creadoAudio){
+                    if(audio.isPlaying()){
+                        audio.pause();
+
+                    }}
                 startModelActivity(MainActivity.class);
                 return true;
             default:
@@ -234,6 +235,11 @@ public class ShowPhraseActivity extends ModelActivity {
 
         super.onBackPressed();
 
+        try {
+            content.putContenido(new JSONArray(content.getContenido()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -262,13 +262,11 @@ public  class Content {
         String path=null;
 
         String datos=bundle.getString(EXTRA_CONTENIDO);
-        JSONArray jsonArray=new JSONArray(datos.toString());
-        JSONArray frases= jsonArray.getJSONObject(getExtraIndiceTematica()).
-                getJSONArray("subtemas").getJSONObject(getExtraIndiceRegistro()).getJSONArray("frases");
-
-        path=frases.getJSONObject(getExtraIndiceFrase()).getString("path");
-
-        path=frases.getJSONObject(getExtraIndiceFrase()).getString("path");
+        JSONArray jsonArray=new JSONArray(datos);
+        path= jsonArray.getJSONObject(getExtraIndiceTematica()).
+                getJSONArray("subtemas").getJSONObject(getExtraIndiceRegistro()).
+                getJSONArray("frases").getJSONObject(getExtraIndiceFrase()).getString("path");
+        Log.i("esmus","recogendo path de descarga:"+path);
 
         return path;
 
@@ -276,16 +274,13 @@ public  class Content {
 
 
     public String getPathG() throws JSONException {
-        String pathg=null;
+
 
         String datos=bundle.getString(EXTRA_CONTENIDO);
         JSONArray jsonArray=new JSONArray(datos.toString());
-        JSONArray frases= jsonArray.getJSONObject(getExtraIndiceTematica()).
-                getJSONArray("subtemas").getJSONObject(getExtraIndiceRegistro()).getJSONArray("frases");
-
-
-        pathg=frases.getJSONObject(getExtraIndiceFrase()).getString("pathG");
-
+        String pathg= jsonArray.getJSONObject(getExtraIndiceTematica()).
+                getJSONArray("subtemas").getJSONObject(getExtraIndiceRegistro()).
+                getJSONArray("frases").getJSONObject(getExtraIndiceFrase()).getString("pathG");
         return pathg;
 
 
@@ -324,6 +319,7 @@ public  class Content {
     public void guardarPathDescarga(String path){
 
         try {
+            Log.i("esmus","guardando path de descarga:"+path);
             JSONArray jsonArray= new JSONArray(bundle.getString(EXTRA_CONTENIDO));
 
             jsonArray.getJSONObject(

@@ -52,15 +52,19 @@ public class Bussines  {
     }
 
 
-    public boolean isExist(String string, String path){
+    public boolean isExist( String path){
 
         boolean aux=false;
         File file=new File(path);
 
-        if(file.exists() && string!=null){
-            aux=true; //existe ya el archivo
+        if(file.exists()){
+
+                aux = true; //existe ya el archivo
+                Log.i("esmus","camiando a true el aux de isExist");
+
 
         }
+
 
         return  aux;
     }
