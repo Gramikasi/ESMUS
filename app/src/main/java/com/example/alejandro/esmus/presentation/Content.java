@@ -194,20 +194,24 @@ public  class Content {
     }
     public ArrayList<String> getFrases()
     {
-        ArrayList<String> frases=new ArrayList<>();
+        ArrayList<String> frases=new ArrayList<String>();
         String datos=bundle.getString(EXTRA_CONTENIDO);
+
         try {
 
             JSONArray contenido = new JSONArray(datos);
             JSONArray jfrases=contenido.getJSONObject(getExtraIndiceTematica()).getJSONArray("subtemas").getJSONObject(getExtraIndiceRegistro()).getJSONArray("frases");
             //JSONArray jfrases=registros.getJSONObject(registro).getJSONArray("frases");
-            String frase=null;
-            String fraseOut=null;
+            Log.i("esmus","Tamaño de jfrases en conten getfrases"+jfrases.length());
+
             for (int i=0;i<jfrases.length(); i++) {
-                frase=jfrases.getJSONObject(i).getString("fr");
-                if(frase.length() > 40)
-                    fraseOut = frase.substring(0,40) + "...";
-                frases.add(fraseOut);
+
+              /*  String fraseOut=null;
+                String frasei=jfrases.getJSONObject(i).getString("fr");
+                if(frasei.length() > 40)
+                    fraseOut= frasei.substring(0,40) + "...";*/
+                frases.add(jfrases.getJSONObject(i).getString("fr"));
+
             }
 
 
