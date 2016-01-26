@@ -43,6 +43,7 @@ public class ShowPhraseActivity extends ModelActivity {
     private static final int  AUDIO_REQUEST_CODE = 1;
     private Uri uri;
     String nombreF;
+    private boolean creadoAudio=false;
     private AudioPlayer audio=null;
 
     @Override
@@ -136,6 +137,7 @@ public class ShowPhraseActivity extends ModelActivity {
 
         try {
             showAudio(path);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -152,6 +154,7 @@ public class ShowPhraseActivity extends ModelActivity {
         }
     }
     private void showAudio(String nombre) throws IOException {
+
         View view = new View(this);
         audio = new AudioPlayer(view);
         audio.setAudioUri(Uri.parse(nombre));
@@ -160,6 +163,8 @@ public class ShowPhraseActivity extends ModelActivity {
         view.setLayoutParams(params);
         layout.addView(view);
         audio.start();
+        creadoAudio=true;
+
     }
 
     public void recordAudio(View view) {
@@ -220,10 +225,12 @@ public class ShowPhraseActivity extends ModelActivity {
     @Override
     public void onBackPressed()
     {
-        if(audio.isPlaying()){
-            audio.pause();
 
-        }
+        if(creadoAudio){
+              if(audio.isPlaying()){
+                     audio.pause();
+
+        }}
 
         super.onBackPressed();
 
