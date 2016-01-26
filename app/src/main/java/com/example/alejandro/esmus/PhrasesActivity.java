@@ -24,22 +24,22 @@ public class PhrasesActivity extends ModelActivity {
         setContentView(R.layout.activity_phrases);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ArrayList<String> login=new ArrayList<>();
-        login=pref.readPref();
+        ArrayList<String> login = new ArrayList<>();
+        login = pref.readPref();
 
 
-        TextView textView=(TextView)findViewById(R.id.welcome_message_phrases);
+        TextView textView = (TextView) findViewById(R.id.welcome_message_phrases);
 
         //textView.setText("Bien " + login.get(0)+ "! Te encuentras en la "+tematicas.get(content.getExtraIndiceTematica())+" ,¿Que quieres hacer?");
 
-        ArrayList<String> frases=content.getFrases();
+        ArrayList<String> frases = content.getFrases();
 
-        ListView listView=(ListView)findViewById(R.id.listViewPhrases);
+        ListView listView = (ListView) findViewById(R.id.listViewPhrases);
         //final ArrayList mLista = new ArrayList();
         //final ArrayAdapter mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mLista);
         //list.setAdapter(mAdapter);
 
-        ListAdapter adapter=new ListAdapter(this.getApplicationContext(),frases);
+        ListAdapter adapter = new ListAdapter(this.getApplicationContext(), frases);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -47,6 +47,7 @@ public class PhrasesActivity extends ModelActivity {
                 content.putExtraIndiceFrase(position);
                 content.putLast();
                 startModelActivity(ShowPhraseActivity.class);
+                finish();
             }
         });
     }
@@ -69,5 +70,7 @@ public class PhrasesActivity extends ModelActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 
 }

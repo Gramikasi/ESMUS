@@ -237,6 +237,7 @@ public class ShowPhraseActivity extends ModelActivity {
 
         try {
             content.putContenido(new JSONArray(content.getContenido()));
+            startModelActivity(MainActivity.class);
         } catch (JSONException e) {
             e.printStackTrace();
         }

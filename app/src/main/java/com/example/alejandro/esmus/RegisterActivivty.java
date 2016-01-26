@@ -53,6 +53,7 @@ public class RegisterActivivty extends ModelActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 content.putExtraIndiceRegistro(position);
                 startModelActivity(PhrasesActivity.class);
+                finish();
             }
         });
 
