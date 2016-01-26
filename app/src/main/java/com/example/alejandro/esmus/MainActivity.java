@@ -188,7 +188,7 @@ public class MainActivity extends ModelActivity
 
             showHtml("http://www.wordreference.com/es/");
         } else if (id == R.id.nav_ultimasconsultas) {
-            // TODO:visionar las ultimas consultas
+            startModelActivity(LastPhrases.class);
 
         }else if(id == R.id.nav_ajustes){
             startModelActivity(AjustesActivity.class);
