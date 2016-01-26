@@ -45,6 +45,7 @@ public class PhrasesActivity extends ModelActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 content.putExtraIndiceFrase(position);
+                content.putLast();
                 startModelActivity(ShowPhraseActivity.class);
             }
         });

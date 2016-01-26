@@ -26,27 +26,28 @@ public class LastPhrases extends ModelActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        ArrayList<String> last=null;
 
-        JSONArray last= null;
+
         try {
             last = content.getLast();
         } catch (JSONException e) {
-            Toast.makeText(this,"Seha producido un error al conseguir las ultimas consultas",Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-        ArrayList<String> lastPhrases=null;
+
+
         ListView listView=(ListView)findViewById(R.id.listViewLast);
         //final ArrayList mLista = new ArrayList();
         //final ArrayAdapter mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mLista);
         //list.setAdapter(mAdapter);
 
-        ListAdapter adapter=new ListAdapter(this.getApplicationContext(),lastPhrases);
+        ListAdapter adapter=new ListAdapter(this.getApplicationContext(),last);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                content.putExtraIndiceRegistro(position);
-                startModelActivity(PhrasesActivity.class);
+                content.putIndices(position);
+                startModelActivity(ShowPhraseActivity.class);
             }
         });
     }

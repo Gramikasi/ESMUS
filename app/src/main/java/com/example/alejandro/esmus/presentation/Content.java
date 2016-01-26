@@ -285,22 +285,30 @@ public  class Content {
             JSONObject newJ=new JSONObject();
             newJ.put("tematica",getExtraIndiceTematica());
             newJ.put("registro",getExtraIndiceRegistro());
-            newJ.put("frase",getExtraIndiceFrase());
-
+            newJ.put("frase", getExtraIndiceFrase());
+            Log.i("esmus", "Antes del borrado: " + last);
 
             JSONArray jsonLast=new JSONArray(last);
-
+            Log.i("esmus", "Antes del borrado: " + jsonLast.length());
             if(jsonLast.length()>10)
             {
                 //TODO: hacer shift de consultas
-                //jsonLast.remove(9);
-                //for(int i=8;i==0;i--)
-                //{}
+                    jsonLast.remove(0);
+                Log.i("esmus", "Despues del borrado: " + jsonLast.toString());
+                Log.i("esmus", "despues del borrado: " + jsonLast.length());
+                    jsonLast.put(newJ);
+                Log.i("esmus", "Despues de añadir: " + jsonLast.toString());
+                Log.i("esmus", "despues de añadir: " + jsonLast.length());
+
+                /*for(int i=1;i<10;i++)
+                {
+
+                }*/
             }
             else{
                 jsonLast.put(newJ);
             }
-
+            bundle.putString(EXTRA_LAST,jsonLast.toString());
 
 
 
@@ -308,16 +316,38 @@ public  class Content {
             e.printStackTrace();
         }
 
-        bundle.putString(EXTRA_LAST,last.toString());
+
 
     }
-    public JSONArray getLast() throws JSONException {
-        String last=bundle.getString(EXTRA_LAST);
-
+    public ArrayList<String> getLast() throws JSONException{
+        String last=bundle.getString(EXTRA_LAST,"[]");
+        String datos=bundle.getString(EXTRA_CONTENIDO);
+        JSONArray jsonArray=new JSONArray(datos.toString());
+        ArrayList<String> stringLast=null;
         JSONArray jsonLast=new JSONArray(last);
+        for(int i=0;i<jsonLast.length();i++)
+        {
+            stringLast.add(jsonArray.getJSONObject(jsonLast.getJSONObject(i).getInt("tematica")).
+                    getJSONArray("subtemas").getJSONObject(jsonLast.getJSONObject(i).getInt("registro")).
+                    getJSONArray("frases").getJSONObject(jsonLast.getJSONObject(i).getInt("frase")).getString("fr"));
+        }
 
-        return jsonLast;
+
+        return stringLast;
     }
 
 
+    public void putIndices(int position)
+    {
+        String last=bundle.getString(EXTRA_LAST,"[]");
+        try {
+            JSONArray jsonLast=new JSONArray(last);
+            putExtraIndiceTematica(jsonLast.getJSONObject(position).getInt("tematica"));
+            putExtraIndiceRegistro(jsonLast.getJSONObject(position).getInt("registro"));
+            putExtraIndiceFrase(jsonLast.getJSONObject(position).getInt("frase"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }
