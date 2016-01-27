@@ -39,7 +39,7 @@ public class PhrasesActivity extends ModelActivity {
 
         TextView textView = (TextView) findViewById(R.id.welcome_message_phrases);
 
-        //textView.setText("Bien " + login.get(0)+ "! Te encuentras en la "+tematicas.get(content.getExtraIndiceTematica())+" ,¿Que quieres hacer?");
+        textView.setText("Seleciona una frase:");
 
         ArrayList<String> frases = content.getFrases();
 

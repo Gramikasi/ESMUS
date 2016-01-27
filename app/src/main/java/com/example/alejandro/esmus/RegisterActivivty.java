@@ -40,7 +40,7 @@ public class RegisterActivivty extends ModelActivity {
         //logica mostrar registros
         TextView textView=(TextView)findViewById(R.id.welcome_message_register);
 
-        textView.setText("Bien " + login.get(0)+ "! Te encuentras en"+content.getPrepTematica()+" "+tematicas.get(content.getExtraIndiceTematica())+" ,¿Que quieres hacer?");
+        textView.setText("Bien " + login.get(0)+ "! Te encuentras "+content.getPrepTematica()+" "+tematicas.get(content.getExtraIndiceTematica())+" ,¿Que quieres hacer?");
 
         ArrayList<String> registros=content.getRegistros();
 
