@@ -19,10 +19,25 @@
         android:id="@+id/showPharase_activity_linear"
         android:layout_height="match_parent">
 
+        <android.support.v7.widget.CardView
+       xmlns:card_view="http://schemas.android.com/apk/res-auto"
+       android:id="@+id/card_view"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       card_view:cardCornerRadius="0dp"
+       card_view:cardElevation="10dp"
+       card_view:cardUseCompatPadding="true"
+            card_view:cardBackgroundColor="@color/backPhrases">
+
+
         <TextView
             android:id="@+id/phrase_texto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="24dp"
+            android:textAlignment="center"
+            android:textColor="@color/pharasecolor"/>
+        </android.support.v7.widget.CardView>
         <ListView
             android:id="@+id/listViewShowPhrases"
             android:layout_width="match_parent"
@@ -33,21 +48,21 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="EscucharTraduccion"
+            android:text="Escuchar Traduccion"
             android:onClick="escucharAudio"
             android:id="@+id/button_showPhrase" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GrabarTraduccion"
+            android:text="Grabar"
             android:onClick="recordAudio"
             android:id="@+id/button2_showPhare" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="escucharTraduccion"
+            android:text="Escuchar Grabacion"
             android:visibility="invisible"
             android:onClick="escucharGrabacion"
             android:id="@+id/button3_showPhare" />

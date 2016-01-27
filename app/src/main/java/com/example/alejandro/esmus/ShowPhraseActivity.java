@@ -61,8 +61,8 @@ public class ShowPhraseActivity extends ModelActivity {
         ListView listView=(ListView)findViewById(R.id.listViewShowPhrases);
         ArrayList<String> frases=new ArrayList<>();
         try {
-            frases.add(0,"Castellano:"+content.getFrase());
-            frases.add(1,"Ingles:"+content.getTraduccion());
+            frases.add(0,content.getFrase());
+            frases.add(1,content.getTraduccion());
         } catch (JSONException e) {
             e.printStackTrace();
         }
