@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -30,28 +31,34 @@ public class LastPhrases extends ModelActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ArrayList<String> last=null;
+        ArrayList<String> lastPhrases;
+        String lastIndices;
 
         if (pref.getLast()) {
             try {
+                Log.i("esmus","Estamos en last frases!!!!!");
 
-                last = content.getLast(dirLast);
-                final JSONArray jsonArray = new JSONArray(last);
+                lastPhrases = content.getLast(dirLast);
+                lastIndices= content.getLastIndices(dirLast);
+                final JSONArray jsonLastIndices = new JSONArray(lastIndices);
+                Log.i("esmus","Estamos en last frases!!!!!jsonarrayLAST="+lastIndices);
+
+
 
                 ListView listView = (ListView) findViewById(R.id.listViewLast);
-                //final ArrayList mLista = new ArrayList();
-                //final ArrayAdapter mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mLista);
-                //list.setAdapter(mAdapter);
-
-                ListAdapter adapter = new ListAdapter(this.getApplicationContext(), last);
+                Log.i("esmus","Creamos listview");
+                ListAdapter adapter = new ListAdapter(this.getApplicationContext(), lastPhrases);
                 listView.setAdapter(adapter);
+                Log.i("esmus", "Antes del try");
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         try {
-                            content.putIndices(jsonArray.getJSONObject(position).toString());
+                           // Log.i("esmus", "Lo que se pasa al put position"+jsonArray.getJSONObject(position).toString());
+                            content.putIndices(jsonLastIndices.getJSONObject(position));
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Log.i("esmus","Excepcion en lastfrases");
                         }
                         startModelActivity(ShowPhraseActivity.class);
                     }

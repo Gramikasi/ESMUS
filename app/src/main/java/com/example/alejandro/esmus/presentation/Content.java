@@ -439,11 +439,11 @@ public  class Content {
 
     }
 
-    public void putIndices(String last)
+    public void putIndices(JSONObject jsonLast)
     {
 
         try {
-            JSONObject jsonLast=new JSONObject(last);
+            //JSONObject jsonLast=new JSONObject(last);
             putExtraIndiceTematica(jsonLast.getInt("tematica"));
             putExtraIndiceRegistro(jsonLast.getInt("registro"));
             putExtraIndiceFrase(jsonLast.getInt("frase"));
@@ -476,6 +476,14 @@ public  class Content {
         return arrayList;
 
 
+    }
+
+    public String getLastIndices(File file) throws FileNotFoundException {
+        FilesManage filesManage=new FilesManage();
+        FileInputStream fileInputStream=new FileInputStream(file);
+        String last=filesManage.readJson(fileInputStream);
+
+        return last;
     }
 
 
