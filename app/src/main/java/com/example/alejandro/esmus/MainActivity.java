@@ -66,8 +66,6 @@ public class MainActivity extends ModelActivity
         imageView.setMinimumHeight(width);
 
 
-
-
         if (login.get(0)!=null)
         {
                 //Descarga con progressTask
